@@ -36,6 +36,30 @@ const router = createRouter({
       ],
     },
     {
+      path: "/admin/news/manage",
+      name: "manage",
+      component: () => import("../layouts/AdminLayout.vue"),
+      children: [{
+          path: "",
+          name: "news-manage",
+          component: () => import("../views/admin/news/Manage.vue"),
+        },
+
+      ],
+    },
+    {
+      path: "/admin/news/preview",
+      name: "preview",
+      component: () => import("../layouts/AdminLayout.vue"),
+      children: [{
+          path: "",
+          name: "news-preview",
+          component: () => import("../views/admin/news/Preview.vue"),
+        },
+
+      ],
+    },
+    {
       path: "/user",
       name: "user",
       component: () => import("../layouts/AdminLayout.vue"),

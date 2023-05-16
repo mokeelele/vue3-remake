@@ -1,5 +1,3 @@
-
-
 <template>
   <v-app-bar :elevation="2">
     <template v-slot:append>
