@@ -64,10 +64,11 @@
                     </v-col>
                     <v-col md="7">
                         <div class="px-4 text-right mt-5">
-                            <button class="text-button" @click="handlePreview" style="background-color: #cddc39!important; border-color: #cddc39!important;">Preview</button>
+                            <button class="text-button" @click="handlePreview(news?.id)" style="background-color: #cddc39!important; border-color: #cddc39!important;">Preview</button>
                             <button class="text-button" style="background-color: #9e9e9e!important; border-color: #9e9e9e!important;">Send</button>
                             <button  @click="handleEditNews(news?.id)" class="text-button" style="background-color: #2196f3!important; border-color: #2196f3!important;">Edit</button>
-                            <button class="text-button" style="background-color: #4caf50!important; border-color: #4caf50!important;">Show</button>
+                            <button v-if=" news?.hidden_flag == 1"  @click="handleShowNews(news?.id)" class="text-button" style="background-color: #4caf50!important; border-color: #4caf50!important;">Show</button>
+                            <button v-else @click="handleHideNews(news?.id)" class="text-button" style="background-color: #f44336!important; border-color: #f44336!important;">Hide</button>
                         </div>
                     </v-col>
                 </v-row>
@@ -107,15 +108,23 @@ const handleEditNews = (id) => {
     refEditNews.value.$refs.refEditNews.open();
     newsStore.fetchDetailNews(id);
 };
+
+const handleShowNews = (id) => {
+    newsStore.showNews(id);
+    console.log("berhasil");
+};
+
+const handleHideNews = (id) => {
+    newsStore.hideNews(id);
+    console.log("berhasil");
+};
+
 const router = useRouter();
 
-const handlePreview = () => {
-  // perform logout logic
-  // ...
+const handlePreview = async (id) => {
 
-  // redirect to login page
-  router.push('/admin/news/preview')
-}
+  router.push(`/admin/news/preview/${id}`);
+};
 
 </script>
 

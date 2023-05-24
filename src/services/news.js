@@ -24,6 +24,20 @@ class NewsServices {
         return res
     }
 
+    async showNews({
+        id
+    }) {
+        const res = await Api.doPost(`news/hide/${id}`)
+        return res
+    }
+
+    async hideNews({
+        id
+    }) {
+        const res = await Api.doPost(`news/show/${id}`)
+        return res
+    }
+
     async updateNews({
         id,
         payload

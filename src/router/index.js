@@ -44,11 +44,21 @@ const router = createRouter({
           name: "news-manage",
           component: () => import("../views/admin/news/Manage.vue"),
         },
-
       ],
     },
     {
-      path: "/admin/news/preview",
+      path: "/admin/news/list",
+      name: "list",
+      component: () => import("../layouts/AdminLayout.vue"),
+      children: [{
+          path: "",
+          name: "news-list",
+          component: () => import("../views/admin/news/List.vue"),
+        },
+      ],
+    },
+    {
+      path: '/admin/news/preview/:id',
       name: "preview",
       component: () => import("../layouts/AdminLayout.vue"),
       children: [{

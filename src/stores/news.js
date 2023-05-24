@@ -40,12 +40,10 @@ export const useNewsStore = defineStore('news', () => {
 
             const res = await SERVICE.detailNews({
                 id
-            })
-
-            setDetailNews(res.data)
-
+            });
+            setDetailNews(res.data);
         } catch (error) {
-            console.error(error)
+            console.error(error);
         }
     }
 
@@ -82,12 +80,42 @@ export const useNewsStore = defineStore('news', () => {
         }
     }
 
+    async function showNews(id) {
+        try {
+
+            const res = await SERVICE.showNews({
+                id
+            })
+
+            return res
+
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    async function hideNews(id) {
+        try {
+
+            const res = await SERVICE.showNews({
+                id
+            })
+
+            return res
+
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     return {
         getNews,
         getDetailNews,
         fetchDetailNews,
         fetchNews,
         createNews,
-        updateNews
+        updateNews,
+        showNews,
+        hideNews
     }
 })

@@ -20,7 +20,7 @@
           ></v-list-item>
         </template>
         <v-list-item>
-          <a href="/admin/news/manage" class="v-list-items">
+          <a href="/admin/news/list" class="v-list-items">
             <div>
               <v-icon class="icon-home">mdi-newspaper</v-icon>
             </div>

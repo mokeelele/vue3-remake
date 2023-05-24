@@ -1,29 +1,47 @@
 <template>  
       <v-row>
-          <v-col md="12">
-              <button class="text-button" @click="handleBack"> News Management</button>
+          <v-col md="6" align="center" class="mt-5">
+              <button class="text-button" @click="handleBack"> <v-icon>mdi-chevron-left</v-icon> News Management</button>
           </v-col>
-
+      </v-row>
+      <v-row>
+        <v-col md="2">
+        </v-col>
+        <v-col md="8">
+            <v-card>
+                <v-card-item>
+                    <v-card-title>
+                        {{ getDetailNews.title }}
+                    </v-card-title>
+                    <v-card-subtitle>
+                       Created Date : {{ getDetailNews.created_at }}
+                    </v-card-subtitle>
+                    <v-card-text>
+                        {{ getDetailNews.content  }}
+                    </v-card-text>
+                </v-card-item>
+            </v-card>
+        </v-col>
       </v-row>
   
   </template>
   
   <script setup>
-  import { useRouter } from 'vue-router';
-  
+    import { useRouter } from 'vue-router';
+  import { useRoute } from 'vue-router';
+  import { useNewsStore } from "@/stores/news";
   import { ref, computed, onMounted } from "vue";
-  import DialogCreateNews from "@/components/Dialog/News/CreateNews.vue";
-  import DialogEditNews from "@/components/Dialog/News/EditNews.vue";
+
+  const route = useRoute();
+  const newsStore = useNewsStore();
+    const getDetailNews = computed(() => newsStore.getDetailNews);
+
+    onMounted(() => {
+      newsStore.fetchDetailNews(route.params.id);
+    });
+
+
   
-  const refCreateNews = ref("");
-  const handleCreateNews = () => {
-      refCreateNews.value.$refs.refCreateNews.open();
-  };
-  
-  const refEditNews = ref("");
-  const handleEditNews = () => {
-      refEditNews.value.$refs.refEditNews.open();
-  };
   const router = useRouter();
   
   const handleBack = () => {
@@ -88,5 +106,20 @@
       justify-content: inherit;
       line-height: normal;
       position: relative;
+  }
+
+  .v-card{
+    border-radius:4px;
+    display: block;
+    max-width: 100%;
+    outline: none;
+    text-decoration: none;
+    transition-property: box-shadow,opacity;
+    overflow-wrap: break-word;
+    position: relative;
+    white-space: normal;
+    transition: box-shadow .28s cubic-bezier(.4,0,.2,1);
+    will-change: box-shadow;
+    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
   }
   </style>
