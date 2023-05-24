@@ -6,12 +6,12 @@
         </v-row>
             <v-form v-model="valid" @submit.prevent="handleSubmit">
                 <v-text-field
-                    v-model="formValues.judul"
+                    v-model="formValues.title"
                     label="Title"
                     required
                     variant="outlined"
                 ></v-text-field>
-                <v-textarea label="Label" variant="outlined"></v-textarea>
+                <v-textarea v-model="formValues.content" label="Label" required variant="outlined"></v-textarea>
                 <v-row>
                     <v-col md="5" align-self="left">
                         <v-btn block color="success">
@@ -33,7 +33,7 @@
                     </v-col>
                     <v-col md="3">
                         <div class="d-flex justify-end mb-6">
-                            <v-btn block color="success">
+                            <v-btn type="submit" block color="success">
                                 Submit
                             </v-btn>
                         </div>
@@ -48,18 +48,22 @@
 <script setup>
   import BaseDialog from "@/components/Base/Dialog.vue";
   import { reactive, ref } from "@vue/reactivity";
+  import { useNewsStore } from "@/stores/news";
+
+  const newsStore = useNewsStore();
 
   const formValues = reactive({
-    judul: "",
-    short_content: "",
-    entry: "",
-    image: "",
+    title: "",
+    content: "",
   });
 
   const refCreateNews = ref("");
 
   const handleSubmit = () => {
-
-      refCreateNews.value.close();
+    console.log(formValues);
+    newsStore.createNews(formValues).then(() => {
+        newsStore.fetchNews();
+        refCreateNews.value.close();
+    });
     };
   </script>

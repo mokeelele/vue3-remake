@@ -10,11 +10,17 @@ import Swal from 'sweetalert2'
 
 export const useNewsStore = defineStore('news', () => {
     const news = ref([])
+    const detailNews = ref({});
 
     const getNews = computed(() => news.value)
+    const getDetailNews = computed(() => detailNews.value)
 
     const setNews = (data) => {
         news.value = data
+    }
+
+    const setDetailNews = (data) => {
+        detailNews.value = data
     }
 
     async function fetchNews() {
@@ -29,6 +35,20 @@ export const useNewsStore = defineStore('news', () => {
         }
     }
 
+    async function fetchDetailNews(id) {
+        try {
+
+            const res = await SERVICE.detailNews({
+                id
+            })
+
+            setDetailNews(res.data)
+
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     async function createNews(payload) {
         try {
 
@@ -37,9 +57,24 @@ export const useNewsStore = defineStore('news', () => {
             })
             Swal.fire({
                 icon: "success",
-                title: "Check In Berhasil",
-                text: "Anda Berhasil Check In Untuk Hari Ini",
+                title: "Berhasil Membuat News",
+                text: "^_^",
             });
+            return res
+
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    async function updateNews(id, payload) {
+        try {
+
+            const res = await SERVICE.updateNews({
+                id,
+                payload
+            })
+
             return res
 
         } catch (error) {
@@ -49,7 +84,10 @@ export const useNewsStore = defineStore('news', () => {
 
     return {
         getNews,
+        getDetailNews,
+        fetchDetailNews,
         fetchNews,
-        createNews
+        createNews,
+        updateNews
     }
 })

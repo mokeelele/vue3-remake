@@ -6,12 +6,12 @@
         </v-row>
             <v-form v-model="valid" @submit.prevent="handleSubmit">
                 <v-text-field
-                    v-model="formValues.judul"
+                    v-model="formValues.title"
                     label="Title"
                     required
                     variant="outlined"
                 ></v-text-field>
-                <v-textarea label="Label" variant="outlined"></v-textarea>
+                <v-textarea  v-model="formValues.content" label="Label" variant="outlined"></v-textarea>
                 <v-row>
                     <v-col md="5" align-self="left">
                         <v-btn block color="success">
@@ -32,7 +32,7 @@
                     </v-col>
                     <v-col md="3">
                         <div class="d-flex justify-end mb-6">
-                            <v-btn block color="success">
+                            <v-btn type="submit" block color="success">
                                 Submit
                             </v-btn>
                         </div>
@@ -46,17 +46,33 @@
 
 <script setup>
   import BaseDialog from "@/components/Base/Dialog.vue";
-  import { reactive, ref } from "@vue/reactivity";
+  import { reactive, ref, computed, watch } from "vue";
+  import { useNewsStore } from "@/stores/news";
+
+  const newsStore = useNewsStore();
 
   const formValues = reactive({
-    judul: "",
-    label: "",
+    title: "",
+    content: "",
   });
+
+  const getDetailNews = computed(() => newsStore.getDetailNews );
+
+  const id = ref("");
+
+  watch(getDetailNews, (val) => {
+  id.value = val.id;
+  formValues.title = val.title;
+  formValues.content = val.content;
+});
 
   const refEditNews = ref("");
 
   const handleSubmit = () => {
-
-      refEditNews.value.close();
+    newsStore.updateNews(id.value, formValues).then(() => {
+        newsStore.fetchNews();
+        refEditNews.value.close();
+    });
+      
     };
   </script>

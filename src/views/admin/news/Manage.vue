@@ -46,24 +46,27 @@
     <v-row>
         <v-col md="12">
             <v-card class="card-news">
-                <v-row v-for="news , index in getNews" :key="index">
+                <v-row v-for="news in getNews?.data" :key="news.id">
                     
                     <v-col md="5">
                         <v-card-title class="news-title">
-                            {{ news.judul }}
+                            {{news?.title}}
                         </v-card-title>
-                        <v-card-subtitle class="news-subtitle">
+                        <v-card-subtitle class="news-subtitle" v-if=" news?.hidden_flag == 1">
                             Status : Hidden
                         </v-card-subtitle>
+                        <v-card-subtitle class="news-subtitle" v-else>
+                            Status : Visible
+                        </v-card-subtitle>
                         <v-card-subtitle class="news-subtitle mt-1 mb-2">
-                            Created Date : 
+                            Created Date : {{ news?.created_at }}
                         </v-card-subtitle>
                     </v-col>
                     <v-col md="7">
                         <div class="px-4 text-right mt-5">
                             <button class="text-button" @click="handlePreview" style="background-color: #cddc39!important; border-color: #cddc39!important;">Preview</button>
                             <button class="text-button" style="background-color: #9e9e9e!important; border-color: #9e9e9e!important;">Send</button>
-                            <button  @click="handleEditNews" class="text-button" style="background-color: #2196f3!important; border-color: #2196f3!important;">Edit</button>
+                            <button  @click="handleEditNews(news?.id)" class="text-button" style="background-color: #2196f3!important; border-color: #2196f3!important;">Edit</button>
                             <button class="text-button" style="background-color: #4caf50!important; border-color: #4caf50!important;">Show</button>
                         </div>
                     </v-col>
@@ -100,8 +103,9 @@ const handleCreateNews = () => {
 };
 
 const refEditNews = ref("");
-const handleEditNews = () => {
+const handleEditNews = (id) => {
     refEditNews.value.$refs.refEditNews.open();
+    newsStore.fetchDetailNews(id);
 };
 const router = useRouter();
 
