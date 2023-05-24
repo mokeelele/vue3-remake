@@ -21,10 +21,17 @@
                 </v-row>
 
                 <v-row>
-                    <v-col md="7">
+                    <v-col md="6">
 
                     </v-col>
-                    <v-col md="5">
+                    <v-col md="3">
+                        <div class="d-flex justify-end mb-6">
+                            <v-btn block color="success">
+                                Cancel
+                            </v-btn>
+                        </div>
+                    </v-col>
+                    <v-col md="3">
                         <div class="d-flex justify-end mb-6">
                             <v-btn block color="success">
                                 Submit

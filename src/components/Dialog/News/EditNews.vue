@@ -19,12 +19,18 @@
                         </v-btn>
                     </v-col>
                 </v-row>
-
                 <v-row>
-                    <v-col md="7">
+                    <v-col md="6">
 
                     </v-col>
-                    <v-col md="5">
+                    <v-col md="3">
+                        <div class="d-flex justify-end mb-6">
+                            <v-btn block color="danger">
+                                cancel
+                            </v-btn>
+                        </div>
+                    </v-col>
+                    <v-col md="3">
                         <div class="d-flex justify-end mb-6">
                             <v-btn block color="success">
                                 Submit
@@ -44,9 +50,7 @@
 
   const formValues = reactive({
     judul: "",
-    short_content: "",
-    entry: "",
-    image: "",
+    label: "",
   });
 
   const refEditNews = ref("");

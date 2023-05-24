@@ -22,7 +22,7 @@
                 </v-col>
                 <v-col md="10" no-gutters align="center">
                     <v-select
-  :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
+  :items="['Newest', 'Oldest', 'Titled']"
   variant="outlined"
 ></v-select>
                 </v-col>
@@ -46,10 +46,11 @@
     <v-row>
         <v-col md="12">
             <v-card class="card-news">
-                <v-row>
+                <v-row v-for="news , index in getNews" :key="index">
+                    
                     <v-col md="5">
                         <v-card-title class="news-title">
-                            news6
+                            {{ news.judul }}
                         </v-card-title>
                         <v-card-subtitle class="news-subtitle">
                             Status : Hidden
@@ -76,8 +77,22 @@
 import { useRouter } from 'vue-router';
 
 import { ref, computed, onMounted } from "vue";
+import { useNewsStore } from "@/stores/news";
+import { useAuthStore } from "@/stores/auth";
 import DialogCreateNews from "@/components/Dialog/News/CreateNews.vue";
 import DialogEditNews from "@/components/Dialog/News/EditNews.vue";
+
+const newsStore = useNewsStore();
+const getNews = computed(() => newsStore.getNews);
+onMounted(() => {
+  newsStore.fetchNews();
+});
+
+const authStore = useAuthStore();
+const getUsers = computed(() => authStore.getUsers);
+onMounted(() => {
+  authStore.fetchUsers();
+});
 
 const refCreateNews = ref("");
 const handleCreateNews = () => {
