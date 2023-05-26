@@ -16,6 +16,10 @@
                     <v-card-subtitle>
                        Created Date : {{ getDetailNews.created_at }}
                     </v-card-subtitle>
+                    <v-img
+              style="height: 340px"
+              :src="getDetailNews?.image"
+            ></v-img>
                     <v-card-text>
                         {{ getDetailNews.content  }}
                     </v-card-text>

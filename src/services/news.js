@@ -1,10 +1,10 @@
 import Api from '@/utils/api.js'
 
 class NewsServices {
-    async getNews() {
-        const res = await Api.doGet(`news/index`)
-        // console.debug('GET FETCH', res)
-        return res
+    async getNews(query) {
+        return await Api.doGet(`news/index?${new URLSearchParams(query || "").toString()}`)
+        .then((res) => res)
+        .catch((err) => err)
     }
 
     async createNews({
@@ -12,7 +12,10 @@ class NewsServices {
     }) {
         const formData = new FormData()
         formData.append('title', payload.title) 
+        formData.append('slug', payload.slug)
         formData.append('content', payload.content)
+        formData.append('short_content', payload.short_content)
+        formData.append('image', payload.image[0])
         const res = await Api.doPost(`news/create`, formData)
         return res
     }
@@ -27,14 +30,14 @@ class NewsServices {
     async showNews({
         id
     }) {
-        const res = await Api.doPost(`news/hide/${id}`)
+        const res = await Api.doPost(`news/show/${id}`)
         return res
     }
 
     async hideNews({
         id
     }) {
-        const res = await Api.doPost(`news/show/${id}`)
+        const res = await Api.doPost(`news/hide/${id}`)
         return res
     }
 
@@ -44,9 +47,11 @@ class NewsServices {
     }) {
 
         const formData = new FormData()
-        formData.append('title', payload.title)
+        formData.append('title', payload.title) 
+        formData.append('slug', payload.slug)
         formData.append('content', payload.content)
-
+        formData.append('short_content', payload.short_content)
+        formData.append('image', payload.image[0])
         const res = await Api.doPost(`news/update/${id}`, payload)
         return res
     }

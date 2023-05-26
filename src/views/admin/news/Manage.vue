@@ -13,7 +13,7 @@
             <button class="text-button" @click="handleCreateNews"><v-icon>mdi-plus</v-icon>Create News</button>
         </v-col>
         <v-col md="4">
-            <v-text-field label="Search" variant="outlined" append-inner-icon="mdi-magnify"></v-text-field>
+            <v-text-field v-model="search.searchTitle" label="Search" variant="outlined" append-inner-icon="mdi-magnify"></v-text-field>
         </v-col>
         <v-col md="4">
             <v-row>
@@ -21,10 +21,10 @@
                     Sort By :
                 </v-col>
                 <v-col md="10" no-gutters align="center">
-                    <v-select
-  :items="['Newest', 'Oldest', 'Titled']"
-  variant="outlined"
-></v-select>
+                    <v-select v-model="search.orderBy" @update:model-value="handleSort()"
+                        :items="['newest', 'oldest', 'titled']"
+                        variant="outlined"
+                    ></v-select>
                 </v-col>
             </v-row>
         </v-col>
@@ -34,7 +34,7 @@
                     Page
                 </v-col>
                 <v-col md="9">
-                    <v-select variant="outlined"></v-select>
+                    <v-select :items="['1']" variant="outlined"></v-select>
                 </v-col>
                 <v-col md="2" align="center" class="mt-4">
                     Of 1
@@ -45,14 +45,14 @@
 
     <v-row>
         <v-col md="12">
-            <v-card class="card-news">
-                <v-row v-for="news in getNews?.data" :key="news.id">
+            <v-card class="card-news mt-2 mb-2"  v-for="news in getNews?.data" :key="news.id">
+                <v-row  >
                     
                     <v-col md="5">
                         <v-card-title class="news-title">
                             {{news?.title}}
                         </v-card-title>
-                        <v-card-subtitle class="news-subtitle" v-if=" news?.hidden_flag == 1">
+                        <v-card-subtitle class="news-subtitle" v-if=" news?.hidden_flag == 0">
                             Status : Hidden
                         </v-card-subtitle>
                         <v-card-subtitle class="news-subtitle" v-else>
@@ -65,9 +65,10 @@
                     <v-col md="7">
                         <div class="px-4 text-right mt-5">
                             <button class="text-button" @click="handlePreview(news?.id)" style="background-color: #cddc39!important; border-color: #cddc39!important;">Preview</button>
-                            <button class="text-button" style="background-color: #9e9e9e!important; border-color: #9e9e9e!important;">Send</button>
+                            <button v-if=" news?.hidden_flag == 0" class="text-button" disabled style="background-color: #9e9e9e!important; border-color: #9e9e9e!important;">Send</button>
+                            <button  v-else class="text-button" style="background-color: #00bcd4!important; border-color: #00bcd4!important;">Send</button>
                             <button  @click="handleEditNews(news?.id)" class="text-button" style="background-color: #2196f3!important; border-color: #2196f3!important;">Edit</button>
-                            <button v-if=" news?.hidden_flag == 1"  @click="handleShowNews(news?.id)" class="text-button" style="background-color: #4caf50!important; border-color: #4caf50!important;">Show</button>
+                            <button v-if=" news?.hidden_flag == 0"  @click="handleShowNews(news?.id)" class="text-button" style="background-color: #4caf50!important; border-color: #4caf50!important;">Show</button>
                             <button v-else @click="handleHideNews(news?.id)" class="text-button" style="background-color: #f44336!important; border-color: #f44336!important;">Hide</button>
                         </div>
                     </v-col>
@@ -78,19 +79,47 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
+import { useRouter,useRoute } from 'vue-router';
 
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, reactive, watchEffect } from "vue";
 import { useNewsStore } from "@/stores/news";
 import { useAuthStore } from "@/stores/auth";
 import DialogCreateNews from "@/components/Dialog/News/CreateNews.vue";
 import DialogEditNews from "@/components/Dialog/News/EditNews.vue";
-
 const newsStore = useNewsStore();
-const getNews = computed(() => newsStore.getNews);
+const getNews = computed(() =>
+    newsStore.getNews()
+);
+const route = useRoute();
+
+const search = reactive({
+    searchTitle: '',
+    orderBy: '',
+})
+
+
+watchEffect(() => {
+    const query = {}
+    if (search.searchTitle !== "") {
+        query.searchTitle = search.searchTitle
+    }
+    if (search.searchorderBy !== "") {
+        query.orderBy = search.orderBy
+    }
+    newsStore.fetchNews(query);
+})
+
+const handleSort = async () => {
+    const payload = search.orderBy;
+
+    console.log(payload)
+
+};
+
+
 onMounted(() => {
-  newsStore.fetchNews();
-});
+  newsStore.fetchNews('')
+})
 
 const authStore = useAuthStore();
 const getUsers = computed(() => authStore.getUsers);
@@ -110,14 +139,19 @@ const handleEditNews = (id) => {
 };
 
 const handleShowNews = (id) => {
-    newsStore.showNews(id);
+    newsStore.hideNews(id);
     console.log("berhasil");
+    newsStore.fetchNews('')
 };
 
 const handleHideNews = (id) => {
-    newsStore.hideNews(id);
+    newsStore.showNews(id);
     console.log("berhasil");
+    newsStore.fetchNews('')
 };
+
+
+
 
 const router = useRouter();
 

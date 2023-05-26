@@ -11,7 +11,19 @@
                     required
                     variant="outlined"
                 ></v-text-field>
-                <v-textarea v-model="formValues.content" label="Label" required variant="outlined"></v-textarea>
+                <v-text-field
+                    v-model="formValues.slug"
+                    label="Slug"
+                    required
+                    variant="outlined"
+                ></v-text-field>
+                <v-textarea v-model="formValues.content" label="Content" required variant="outlined"></v-textarea>
+                <v-textarea v-model="formValues.short_content" label=" Short Content" required variant="outlined"></v-textarea>
+                <v-file-input
+          v-model="formValues.image"
+          @change="handleChangePhoto($event)"
+          label="Foto"
+        ></v-file-input>
                 <v-row>
                     <v-col md="5" align-self="left">
                         <v-btn block color="success">
@@ -54,7 +66,10 @@
 
   const formValues = reactive({
     title: "",
+    slug: "",
     content: "",
+    short_content: "",
+    image: "",
   });
 
   const refCreateNews = ref("");

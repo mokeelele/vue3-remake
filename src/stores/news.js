@@ -9,31 +9,38 @@ import SERVICE from "@/services/news.js"
 import Swal from 'sweetalert2'
 
 export const useNewsStore = defineStore('news', () => {
-    const news = ref([])
+    const news = ref([]);
     const detailNews = ref({});
 
-    const getNews = computed(() => news.value)
+    const getNews = () => {
+        return news.value;
+      };
+
     const getDetailNews = computed(() => detailNews.value)
 
-    const setNews = (data) => {
-        news.value = data
+    const setNews = (value) => {
+        news.value = value
     }
 
     const setDetailNews = (data) => {
         detailNews.value = data
     }
 
-    async function fetchNews() {
+    const fetchNews = async (payload)  => {
+        const query = {
+            orderBy: payload.orderBy ? payload.orderBy : "",
+          searchTitle:  payload.searchTitle ? payload.searchTitle : "",
+        };
         try {
 
-            const res = await SERVICE.getNews()
+            const res = await SERVICE.getNews(query);
 
             setNews(res.data)
 
         } catch (error) {
             console.error(error)
         }
-    }
+    };
 
     async function fetchDetailNews(id) {
         try {
@@ -83,7 +90,7 @@ export const useNewsStore = defineStore('news', () => {
     async function showNews(id) {
         try {
 
-            const res = await SERVICE.showNews({
+            const res = await SERVICE.hideNews({
                 id
             })
 
@@ -109,6 +116,7 @@ export const useNewsStore = defineStore('news', () => {
     }
 
     return {
+        news,
         getNews,
         getDetailNews,
         fetchDetailNews,

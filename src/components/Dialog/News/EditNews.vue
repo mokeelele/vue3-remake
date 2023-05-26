@@ -4,14 +4,26 @@
         <v-row class="mb-5" style= "height: 50px;">
             <h1 class="text-left">Edit News</h1>
         </v-row>
-            <v-form v-model="valid" @submit.prevent="handleSubmit">
+        <v-form v-model="valid" @submit.prevent="handleSubmit">
                 <v-text-field
                     v-model="formValues.title"
                     label="Title"
                     required
                     variant="outlined"
                 ></v-text-field>
-                <v-textarea  v-model="formValues.content" label="Label" variant="outlined"></v-textarea>
+                <v-text-field
+                    v-model="formValues.slug"
+                    label="Slug"
+                    required
+                    variant="outlined"
+                ></v-text-field>
+                <v-textarea v-model="formValues.content" label="Content" required variant="outlined"></v-textarea>
+                <v-textarea v-model="formValues.short_content" label=" Short Content" required variant="outlined"></v-textarea>
+                <v-file-input
+          v-model="formValues.image"
+          @change="handleChangePhoto($event)"
+          label="Foto"
+        ></v-file-input>
                 <v-row>
                     <v-col md="5" align-self="left">
                         <v-btn block color="success">
@@ -19,14 +31,15 @@
                         </v-btn>
                     </v-col>
                 </v-row>
+
                 <v-row>
                     <v-col md="6">
 
                     </v-col>
                     <v-col md="3">
                         <div class="d-flex justify-end mb-6">
-                            <v-btn block color="danger">
-                                cancel
+                            <v-btn block color="success">
+                                Cancel
                             </v-btn>
                         </div>
                     </v-col>
@@ -53,7 +66,10 @@
 
   const formValues = reactive({
     title: "",
+    slug: "",
     content: "",
+    short_content: "",
+    image: "",
   });
 
   const getDetailNews = computed(() => newsStore.getDetailNews );

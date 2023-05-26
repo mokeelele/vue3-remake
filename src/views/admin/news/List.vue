@@ -27,6 +27,10 @@
                 <v-card-title class="v-card--title justify-center">
                     {{news?.title}}
                 </v-card-title>
+                <v-img
+              style="height: 140px"
+              :src="news?.image"
+            ></v-img>
                 <v-card-text class="v-card--title justify-center">
                     {{news?.short_content}}
                 </v-card-text>
@@ -44,10 +48,13 @@
   import { useAuthStore } from "@/stores/auth";
   
   const newsStore = useNewsStore();
-  const getNews = computed(() => newsStore.getNews);
-  onMounted(() => {
-    newsStore.fetchNews();
-  });
+  const getNews = computed(() =>
+    newsStore.getNews()
+);
+
+onMounted(() => {
+  newsStore.fetchNews('')
+})
   
   const authStore = useAuthStore();
   const getUsers = computed(() => authStore.getUsers);
