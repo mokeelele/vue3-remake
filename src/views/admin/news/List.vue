@@ -1,8 +1,5 @@
 <template>
-      <v-row>
-          <v-col md="12">
-              <button class="text-button" @click="handleCreateNews"><v-icon>mdi-plus</v-icon>Create News</button>
-          </v-col>
+      <v-row class="mt-5">
           <v-col md="4" class="ml-5">
               <v-text-field label="Search" variant="outlined" append-inner-icon="mdi-magnify"></v-text-field>
           </v-col>

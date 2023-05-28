@@ -58,6 +58,50 @@ const router = createRouter({
       ],
     },
     {
+      path: "/admin/quiz/manage",
+      name: "qmanage",
+      component: () => import("../layouts/AdminLayout.vue"),
+      children: [{
+          path: "",
+          name: "quiz-manage",
+          component: () => import("../views/admin/quiz/Manage.vue"),
+        },
+      ],
+    },
+    {
+      path: "/admin/quiz/list",
+      name: "qlist",
+      component: () => import("../layouts/AdminLayout.vue"),
+      children: [{
+          path: "",
+          name: "quiz-list",
+          component: () => import("../views/admin/quiz/List.vue"),
+        },
+      ],
+    },
+    {
+      path: "/admin/quiz/form",
+      name: "qform",
+      component: () => import("../layouts/AdminLayout.vue"),
+      children: [{
+          path: "",
+          name: "quiz-form",
+          component: () => import("../views/admin/quiz/form.vue"),
+        },
+      ],
+    },
+    {
+      path: "/admin/quiz/preview/:id",
+      name: "qpreview",
+      component: () => import("../layouts/AdminLayout.vue"),
+      children: [{
+          path: "",
+          name: "quiz-preview",
+          component: () => import("../views/admin/quiz/Preview.vue"),
+        },
+      ],
+    },
+    {
       path: '/admin/news/preview/:id',
       name: "preview",
       component: () => import("../layouts/AdminLayout.vue"),

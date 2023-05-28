@@ -16,7 +16,7 @@
           <v-list-item
             v-bind="props"
             prepend-icon="mdi-newspaper"
-            title="News"
+            title="News Menu"
           ></v-list-item>
         </template>
         <v-list-item>
@@ -43,25 +43,25 @@
         <template v-slot:activator="{ props }">
           <v-list-item
             v-bind="props"
-            prepend-icon="mdi-newspaper"
-            title="Quiz"
+            prepend-icon="mdi-format-list-checks"
+            title="Quiz Menu"
           ></v-list-item>
         </template>
         <v-list-item>
-          <a href="/admin/news/manage" class="v-list-items">
-            <div>
-              <v-icon class="icon-home">mdi-newspaper</v-icon>
-            </div>
-            <v-list-item-title class="text-home">Quiz List</v-list-item-title>
-          </a>
-        </v-list-item>
-
-        <v-list-item>
-        <a href="/admin/news/manage" class="v-list-items">
+        <a href="/admin/quiz/manage" class="v-list-items">
         <div class="v-list-item-icon">
-          <v-icon class="icon-home">mdi-newspaper</v-icon>
+          <v-icon class="icon-home">mdi-format-list-checks</v-icon>
         </div>
-        <v-list-item-title class="text-home">Quiz Manage</v-list-item-title>
+        <v-list-item-title class="text-home">Quiz Management</v-list-item-title>
+      </a>
+          </v-list-item>
+
+          <v-list-item>
+        <a href="/admin/quiz/list" class="v-list-items">
+        <div class="v-list-item-icon">
+          <v-icon class="icon-home">mdi-history</v-icon>
+        </div>
+        <v-list-item-title class="text-home">Quiz History</v-list-item-title>
       </a>
           </v-list-item>
       </v-list-group>
