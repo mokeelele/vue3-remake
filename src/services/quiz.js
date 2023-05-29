@@ -11,12 +11,16 @@ class QuizServices {
         payload
     }) {
         const formData = new FormData()
-        formData.append('module_name', payload.module_name) 
+        formData.append('module_name', payload.module_name)
+        formData.append('start_date', payload.start_date) 
+        formData.append('end_date', payload.end_date) 
+        formData.append('per_page', payload.per_page)  
+        formData.append('published_at', payload.published_at)
         payload.questions.forEach((question, questionIndex) => {
             formData.append(`questions[${questionIndex}][title]`, question.title);
             
             question.choices.forEach((choice, choiceIndex) => {
-              formData.append(`questions[${questionIndex}][choice_text][${choiceIndex}]`, choice.choice_text);
+              formData.append(`questions[${questionIndex}][text][${choiceIndex}]`, choice.text);
               formData.append(`questions[${questionIndex}][is_correct][${choiceIndex}]`, choice.is_correct);
             });
           });

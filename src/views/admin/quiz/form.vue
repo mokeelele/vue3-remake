@@ -7,11 +7,18 @@
 
     <v-row class="ml-5">
         <v-col md="12">
-        <v-form @submit="submitForm">
-    <v-text-field variant="outlined" v-model="moduleName" label="Module Name"></v-text-field>
+        <v-form v-model="valid" @submit.prevent="handleSubmit">
+    <v-text-field variant="outlined" v-model="state.moduleName" label="Module Name"></v-text-field>
+    <v-text-field
+                    v-model="state.published_at"
+                    variant="outlined"
+              label="Published at"
+              type="date"
+            ></v-text-field>
             <v-row>
                 <v-col md="4">
                     <v-text-field
+                    v-model="state.start_date"
                     variant="outlined"
               label="Period Start"
               type="date"
@@ -19,6 +26,7 @@
                 </v-col>
                 <v-col md="4">
                     <v-text-field
+                    v-model="state.end_date"
                     variant="outlined"
               label="Period End"
               type="date"
@@ -26,6 +34,7 @@
                 </v-col>
                 <v-col md="4">
                     <v-text-field
+                    v-model="state.per_page"
                     variant="outlined"
               label="Questions Per Page"
               type="number"
@@ -34,19 +43,17 @@
             </v-row>
     <!-- Form fields -->
     <v-divider></v-divider>
-
-    <v-text-field class="mt-5" variant="outlined" v-model="moduleName" label="Module Name"></v-text-field>
         <!-- Add Question button -->
         <v-btn class="mt-5 mb-5" @click="addQuestion">Add Question</v-btn>
     <!-- Questions -->
-    <div v-for="(question, questionIndex) in questions" :key="questionIndex">
+    <div v-for="(question, questionIndex) in state.questions" :key="questionIndex">
       <v-text-field variant="outlined" v-model="question.title" :label="'Question ' + (questionIndex + 1) + ' Title'"></v-text-field>
 
       <!-- Choices -->
       <span>Choice :</span>
       <v-row v-for="(choice, choiceIndex) in question.choices" :key="choiceIndex">
         <v-col md="10">
-            <v-text-field variant="outlined" v-model="choice.choice_text"></v-text-field>
+            <v-text-field @click:append-inner="deleteChoice(questionIndex, choiceIndex)" variant="outlined" v-model="choice.text" append-inner-icon="mdi-delete"></v-text-field>
         </v-col>
         <v-col md="2">
             <v-checkbox v-model="choice.is_correct" label="Right Answer"></v-checkbox>
@@ -71,17 +78,29 @@ import { ref, computed, onMounted, reactive, watchEffect } from "vue";
 import { useQuizStore } from "@/stores/quiz";
 import { useAuthStore } from "@/stores/auth";
 
-const questions = ref([
-  {
-    title: '',
-    choices: [
-      { choice_text: '', is_correct: false },
-    ],
-  },
-]);
+const quizStore = useQuizStore();
+const getQuiz = computed(() =>
+    quizStore.getQuiz()
+);
+
+const state = reactive({
+  moduleName: '',
+  start_date: '',
+    end_date: '',
+    per_page: '',
+    published_at: '',
+  questions: [
+    {
+      title: '',
+      choices: [
+        {text: '', is_correct: false },
+      ],
+    },
+  ],
+});
 
 const addQuestion = () => {
-  questions.value.push({
+    state.questions.push({
     title: '',
     choices: [
       { choice_text: '', is_correct: false },
@@ -90,16 +109,28 @@ const addQuestion = () => {
 };
 
 const addChoice = (questionIndex) => {
-  questions.value[questionIndex].choices.push({
+    state.questions[questionIndex].choices.push({
     choice_text: '',
     is_correct: false,
   });
 };
 
-const quizStore = useQuizStore();
-const getQuiz = computed(() =>
-    quizStore.getQuiz()
-);
+const deleteQuestion = (questionIndex) => {
+    state.questions.splice(questionIndex, 1);
+};
+
+const deleteChoice = (questionIndex, choiceIndex) => {
+    state.questions[questionIndex].choices.splice(choiceIndex, 1);
+};
+
+const handleSubmit = () => {
+    console.log(state);
+    quizStore.createQuiz(state).then(() => {
+        quizStore.fetchQuiz();
+    });
+    };
+
+
 const route = useRoute();
 const router = useRouter();
 

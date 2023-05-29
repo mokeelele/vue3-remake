@@ -26,14 +26,10 @@ export const useQuizStore = defineStore('quiz', () => {
         detailQuiz.value = data
     }
 
-    const fetchQuiz = async (payload)  => {
-        const query = {
-            orderBy: payload.orderBy ? payload.orderBy : "",
-          searchTitle:  payload.searchTitle ? payload.searchTitle : "",
-        };
+    const fetchQuiz = async ()  => {
         try {
 
-            const res = await SERVICE.getQuiz(query);
+            const res = await SERVICE.getQuiz();
 
             setQuiz(res.data)
 
