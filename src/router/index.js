@@ -87,6 +87,17 @@ const router = createRouter({
       }, ],
     },
     {
+      path: "/admin/quiz/answer/:id",
+      name: "qanswer",
+      component: () => import("../layouts/AdminLayout.vue"),
+      children: [{
+        path: "",
+        name: "answer-form",
+        component: () => import("../views/admin/quiz/answer.vue"),
+      }, ],
+    },
+
+    {
       path: "/admin/quiz/preview/:id",
       name: "qpreview",
       component: () => import("../layouts/AdminLayout.vue"),

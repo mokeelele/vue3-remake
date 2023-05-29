@@ -19,7 +19,7 @@
 
   <div>
     <v-row>
-      <v-col cols="4" v-for="news in getDashboardNews" :key="news.id">
+      <v-col cols="12" sm="6" md="4" v-for="news in getDashboardNews" :key="news.id">
         <v-card class="mx-auto" max-width="344">
           <v-img :src="news?.image" height="200px" cover></v-img>
 
@@ -28,7 +28,9 @@
           <v-card-subtitle> {{ news?.slug }} </v-card-subtitle>
 
           <v-card-actions>
-            <v-btn color="primary" text-color="black" variant="tonal">Detail</v-btn>
+            <v-btn @click="handlePreview(news?.id)" outlined class="mb-5 mt-5 detail-button"
+              >More Details</v-btn
+            >
 
             <v-spacer></v-spacer>
 
@@ -60,117 +62,19 @@
 
   <div>
     <v-row>
-      <v-col cols="4">
+      <v-col cols="12" sm="6" md="4" v-for="quiz in getDashboardQuiz" :key="quiz.id">
         <v-card class="mx-auto" max-width="344">
-          <v-img
-            src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-            height="200px"
-            cover
-          ></v-img>
-
-          <v-card-title> Top western road trips </v-card-title>
-
-          <v-card-subtitle> 1,000 miles of wonder </v-card-subtitle>
-
-          <v-card-actions>
-            <v-btn color="orange-lighten-2" variant="text"> Explore </v-btn>
-
-            <v-spacer></v-spacer>
-
-            <v-btn
-              :icon="show ? 'mdi-chevron-up' : 'mdi-chevron-down'"
-              @click="show = !show"
-            ></v-btn>
+          <div class="d-flex align-center justify-center">
+            <v-card-title> {{ quiz.module_name.toUpperCase() }} </v-card-title>
+          </div>
+          <div class="d-flex align-center justify-center">
+            <v-card-subtitle
+              ><b>Periode : {{ quiz.start_date }} - {{ quiz.end_date }}</b>
+            </v-card-subtitle>
+          </div>
+          <v-card-actions class="d-flex justify-center">
+            <v-btn color="primary" variant="tonal" @click="handleAnswer(quiz.id)">Take Test</v-btn>
           </v-card-actions>
-
-          <v-expand-transition>
-            <div v-show="show">
-              <v-divider></v-divider>
-
-              <v-card-text>
-                I'm a thing. But, like most politicians, he promised more than he could deliver. You
-                won't have time for sleeping, soldier, not with all the bed making you'll be doing.
-                Then we'll go with that data file! Hey, you add a one and two zeros to that or we
-                walk! You're going to do his laundry? I've got to find a way to escape.
-              </v-card-text>
-            </div>
-          </v-expand-transition>
-        </v-card>
-      </v-col>
-      <v-col cols="4">
-        <v-card class="mx-auto" max-width="344">
-          <v-img
-            src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-            height="200px"
-            cover
-          ></v-img>
-
-          <v-card-title> Top western road trips </v-card-title>
-
-          <v-card-subtitle> 1,000 miles of wonder </v-card-subtitle>
-
-          <v-card-actions>
-            <v-btn color="orange-lighten-2" variant="text"> Explore </v-btn>
-
-            <v-spacer></v-spacer>
-
-            <v-btn
-              :icon="show ? 'mdi-chevron-up' : 'mdi-chevron-down'"
-              @click="show = !show"
-            ></v-btn>
-          </v-card-actions>
-
-          <v-expand-transition>
-            <div v-show="show">
-              <v-divider></v-divider>
-
-              <v-card-text>
-                I'm a thing. But, like most politicians, he promised more than he could deliver. You
-                won't have time for sleeping, soldier, not with all the bed making you'll be doing.
-                Then we'll go with that data file! Hey, you add a one and two zeros to that or we
-                walk! You're going to do his laundry? I've got to find a way to escape.
-              </v-card-text>
-            </div>
-          </v-expand-transition>
-        </v-card>
-      </v-col>
-
-      <v-col cols="4">
-        <v-card class="mx-auto" max-width="344">
-          <v-img
-            src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-            height="200px"
-            cover
-          ></v-img>
-
-          <v-card-title> Top western road trips </v-card-title>
-
-          <v-card-subtitle> 1,000 miles of wonder </v-card-subtitle>
-
-          <v-card-actions>
-            <v-btn color="orange-lighten-2" variant="text"> Explore </v-btn>
-
-            <v-spacer></v-spacer>
-
-            <v-btn
-              style="color: red"
-              :icon="show ? 'mdi-chevron-up' : 'mdi-chevron-down'"
-              @click="show = !show"
-            ></v-btn>
-          </v-card-actions>
-
-          <v-expand-transition>
-            <div v-show="show">
-              <v-divider></v-divider>
-
-              <v-card-text>
-                I'm a thing. But, like most politicians, he promised more than he could deliver. You
-                won't have time for sleeping, soldier, not with all the bed making you'll be doing.
-                Then we'll go with that data file! Hey, you add a one and two zeros to that or we
-                walk! You're going to do his laundry? I've got to find a way to escape.
-              </v-card-text>
-            </div>
-          </v-expand-transition>
         </v-card>
       </v-col>
     </v-row>
@@ -184,12 +88,27 @@ import { ref, computed, onMounted, reactive, watchEffect } from 'vue'
 import { useDashboardStore } from '@/stores/dashboard'
 
 const dashboardStore = useDashboardStore()
+const route = useRoute()
+const router = useRouter()
+
 const getDashboardNews = computed(() => dashboardStore.getDashboardNews())
 onMounted(() => {
   dashboardStore.fetchDashboardNews()
 })
 
-const route = useRoute()
+const getDashboardQuiz = computed(() => dashboardStore.getDashboardQuiz())
+onMounted(() => {
+  dashboardStore.fetchDashboardQuiz()
+})
+
+const handlePreview = async (id) => {
+  router.push(`/admin/news/preview/${id}`)
+}
+
+const handleAnswer = async (id) => {
+  router.push(`/admin/quiz/answer/${id}`)
+}
+
 const show = ref(false)
 </script>
 

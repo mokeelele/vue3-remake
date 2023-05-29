@@ -71,7 +71,11 @@
               ></v-text-field>
             </v-col>
             <v-col md="2">
-              <v-checkbox v-model="choice.is_correct" label="Right Answer"></v-checkbox>
+              <v-checkbox
+                v-model="choice.is_correct"
+                label="Right Answer"
+                @change="handleCheckboxChange(choice)"
+              ></v-checkbox>
             </v-col>
           </v-row>
 
@@ -89,7 +93,7 @@
 <script setup>
 import { useRouter, useRoute } from 'vue-router'
 
-import { ref, computed, onMounted, reactive, watchEffect } from 'vue'
+import { ref, computed, onMounted, reactive, watchEffect, watch } from 'vue'
 import { useQuizStore } from '@/stores/quiz'
 import { useAuthStore } from '@/stores/auth'
 
@@ -105,7 +109,7 @@ const state = reactive({
   questions: [
     {
       title: '',
-      choices: [{ text: '', is_correct: false }]
+      choices: [{ text: '', is_correct: 0 }]
     }
   ]
 })
@@ -124,6 +128,16 @@ const addChoice = (questionIndex) => {
   })
 }
 
+const handleCheckboxChange = (choice) => {
+  nextTick(() => {
+    if (choice.is_correct) {
+      choice.is_correct = 1
+    } else {
+      choice.is_correct = 0
+    }
+  })
+}
+
 const deleteQuestion = (questionIndex) => {
   state.questions.splice(questionIndex, 1)
 }
@@ -133,9 +147,11 @@ const deleteChoice = (questionIndex, choiceIndex) => {
 }
 
 const handleSubmit = () => {
-  console.log(state)
   quizStore.createQuiz(state).then(() => {
     quizStore.fetchQuiz()
+
+    const router = useRouter()
+    router.push('/admin/quiz/manage')
   })
 }
 

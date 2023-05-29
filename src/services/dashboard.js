@@ -7,6 +7,14 @@ class DashboardServices {
             .catch((err) => err)
     }
 
+    async getQuizDashboard() {
+        return await Api.doGet(`dashboard/quiz`)
+            .then((res) => res)
+            .catch((err) => err)
+    }
+
 }
+
+
 
 export default new DashboardServices()

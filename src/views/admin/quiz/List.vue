@@ -1,5 +1,5 @@
 <template>
-    <v-row class="mt-5">
+    <v-row>
       <v-col md="6" align="center" v-for="quiz in getQuiz" :key="quiz.id">
           <v-card>
               <v-card-title class="v-card--title justify-center">

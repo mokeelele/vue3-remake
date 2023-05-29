@@ -1,218 +1,208 @@
 <template>
-
   <!-- Modal Create News -->
   <DialogCreateNews ref="refCreateNews"></DialogCreateNews>
   <!-- End Create news -->
 
-    <!-- Modal Edit News -->
-    <DialogEditNews ref="refEditNews"></DialogEditNews>
+  <!-- Modal Edit News -->
+  <DialogEditNews ref="refEditNews"></DialogEditNews>
   <!-- End Edit news -->
 
-    <v-row>
-        <v-col md="12">
-            <button class="text-button" @click="handleCreateNews"><v-icon>mdi-plus</v-icon>Create News</button>
+  <v-row>
+    <v-col cols="12">
+      <v-btn class="text-button custom-button" @click="handleCreateNews">
+        <v-icon>mdi-plus</v-icon>Create News
+      </v-btn>
+    </v-col>
+    <v-col cols="12" sm="4">
+      <v-text-field
+        v-model="search.searchTitle"
+        label="Search"
+        variant="outlined"
+        append-inner-icon="mdi-magnify"
+      ></v-text-field>
+    </v-col>
+    <v-col cols="12" sm="4">
+      <v-select
+        v-model="search.orderBy"
+        @update:model-value="handleSort()"
+        :items="['newest', 'oldest', 'titled']"
+        variant="outlined"
+        label="Sort By"
+      ></v-select>
+    </v-col>
+    <v-col cols="12" sm="4">
+      <v-row align="center">
+        <v-col cols="4" align="center"> Page </v-col>
+        <v-col cols="4">
+          <v-select :items="['1']" variant="outlined"></v-select>
         </v-col>
-        <v-col md="4">
-            <v-text-field v-model="search.searchTitle" label="Search" variant="outlined" append-inner-icon="mdi-magnify"></v-text-field>
-        </v-col>
-        <v-col md="4">
-            <v-row>
-                <v-col md="2" no-gutters align="center" class="mt-4">
-                    Sort By :
-                </v-col>
-                <v-col md="10" no-gutters align="center">
-                    <v-select v-model="search.orderBy" @update:model-value="handleSort()"
-                        :items="['newest', 'oldest', 'titled']"
-                        variant="outlined"
-                    ></v-select>
-                </v-col>
-            </v-row>
-        </v-col>
-        <v-col md="4">
-            <v-row>
-                <v-col md="1" align="center" class="mt-4">
-                    Page
-                </v-col>
-                <v-col md="9">
-                    <v-select :items="['1']" variant="outlined"></v-select>
-                </v-col>
-                <v-col md="2" align="center" class="mt-4">
-                    Of 1
-                </v-col>
-            </v-row>
-        </v-col>
-    </v-row>
+        <v-col cols="4" align="center"> Of 1 </v-col>
+      </v-row>
+    </v-col>
+  </v-row>
 
-    <v-row>
-        <v-col md="12">
-            <v-card class="card-news mt-2 mb-2"  v-for="news in getNews?.data" :key="news.id">
-                <v-row  >
-                    
-                    <v-col md="5">
-                        <v-card-title class="news-title">
-                            {{news?.title}}
-                        </v-card-title>
-                        <v-card-subtitle class="news-subtitle" v-if=" news?.hidden_flag == 0">
-                            Status : Hidden
-                        </v-card-subtitle>
-                        <v-card-subtitle class="news-subtitle" v-else>
-                            Status : Visible
-                        </v-card-subtitle>
-                        <v-card-subtitle class="news-subtitle mt-1 mb-2">
-                            Created Date : {{ news?.created_at }}
-                        </v-card-subtitle>
-                    </v-col>
-                    <v-col md="7">
-                        <div class="px-4 text-right mt-5">
-                            <button class="text-button" @click="handlePreview(news?.id)" style="background-color: #cddc39!important; border-color: #cddc39!important;">Preview</button>
-                            <button v-if=" news?.hidden_flag == 0" class="text-button" disabled style="background-color: #9e9e9e!important; border-color: #9e9e9e!important;">Send</button>
-                            <button  v-else class="text-button" style="background-color: #00bcd4!important; border-color: #00bcd4!important;">Send</button>
-                            <button  @click="handleEditNews(news?.id)" class="text-button" style="background-color: #2196f3!important; border-color: #2196f3!important;">Edit</button>
-                            <button v-if=" news?.hidden_flag == 0"  @click="handleShowNews(news?.id)" class="text-button" style="background-color: #4caf50!important; border-color: #4caf50!important;">Show</button>
-                            <button v-else @click="handleHideNews(news?.id)" class="text-button" style="background-color: #f44336!important; border-color: #f44336!important;">Hide</button>
-                        </div>
-                    </v-col>
-                </v-row>
-            </v-card>
-        </v-col>
-    </v-row>
+  <v-row>
+    <v-col cols="12" v-for="news in getNews?.data" :key="news.id">
+      <v-card class="card-news mt-2 mb-2">
+        <v-row>
+          <v-col cols="6">
+            <v-card-title class="news-title">{{ news?.title }}</v-card-title>
+            <v-card-title>
+              <b>Status :</b>
+              <v-chip :color="news?.hidden_flag == 0 ? 'red' : 'green'">
+                {{ news?.hidden_flag == 0 ? 'Hidden' : 'Visible' }}
+              </v-chip>
+            </v-card-title>
+            <v-card-subtitle>
+              <b>Created Date: {{ news?.created_at }}</b>
+            </v-card-subtitle>
+          </v-col>
+          <v-col cols="6" class="text-right my-2">
+            <v-btn class="mb-2 mr-2" variant="tonal" @click="handlePreview(news?.id)" color="green"
+              >Preview</v-btn
+            >
+            <v-btn v-if="news?.hidden_flag == 0" class="mb-2 mr-2 text-button" disabled color="grey"
+              >Send</v-btn
+            >
+            <v-btn v-else class="mb-2 mr-2" variant="tonal" color="red">Send</v-btn>
+            <v-btn class="mb-2 mr-2" @click="handleEditNews(news?.id)" variant="tonal" color="blue"
+              >Edit</v-btn
+            >
+            <v-btn
+              v-if="news?.hidden_flag == 0"
+              class="mb-2 mr-2"
+              @click="handleShowNews(news?.id)"
+              variant="tonal"
+              color="green"
+              >Show</v-btn
+            >
+            <v-btn v-else class="mb-2 mr-2" @click="handleHideNews(news?.id)" color="red"
+              >Hide</v-btn
+            >
+          </v-col>
+        </v-row>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script setup>
-import { useRouter,useRoute } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router'
 
-import { ref, computed, onMounted, reactive, watchEffect } from "vue";
-import { useNewsStore } from "@/stores/news";
-import { useAuthStore } from "@/stores/auth";
-import DialogCreateNews from "@/components/Dialog/News/CreateNews.vue";
-import DialogEditNews from "@/components/Dialog/News/EditNews.vue";
-const newsStore = useNewsStore();
-const getNews = computed(() =>
-    newsStore.getNews()
-);
-const route = useRoute();
+import { ref, computed, onMounted, reactive, watchEffect } from 'vue'
+import { useNewsStore } from '@/stores/news'
+import { useAuthStore } from '@/stores/auth'
+import DialogCreateNews from '@/components/Dialog/News/CreateNews.vue'
+import DialogEditNews from '@/components/Dialog/News/EditNews.vue'
+const newsStore = useNewsStore()
+const getNews = computed(() => newsStore.getNews())
+const route = useRoute()
 
 const search = reactive({
-    searchTitle: '',
-    orderBy: '',
+  searchTitle: '',
+  orderBy: ''
 })
 
-
 watchEffect(() => {
-    const query = {}
-    if (search.searchTitle !== "") {
-        query.searchTitle = search.searchTitle
-    }
-    if (search.searchorderBy !== "") {
-        query.orderBy = search.orderBy
-    }
-    newsStore.fetchNews(query);
+  const query = {}
+  if (search.searchTitle !== '') {
+    query.searchTitle = search.searchTitle
+  }
+  if (search.searchorderBy !== '') {
+    query.orderBy = search.orderBy
+  }
+  newsStore.fetchNews(query)
 })
 
 const handleSort = async () => {
-    const payload = search.orderBy;
+  const payload = search.orderBy
 
-    console.log(payload)
-
-};
-
+  console.log(payload)
+}
 
 onMounted(() => {
   newsStore.fetchNews('')
 })
 
-const authStore = useAuthStore();
-const getUsers = computed(() => authStore.getUsers);
+const authStore = useAuthStore()
+const getUsers = computed(() => authStore.getUsers)
 onMounted(() => {
-  authStore.fetchUsers();
-});
+  authStore.fetchUsers()
+})
 
-const refCreateNews = ref("");
+const refCreateNews = ref('')
 const handleCreateNews = () => {
-    refCreateNews.value.$refs.refCreateNews.open();
-};
+  refCreateNews.value.$refs.refCreateNews.open()
+}
 
-const refEditNews = ref("");
+const refEditNews = ref('')
 const handleEditNews = (id) => {
-    refEditNews.value.$refs.refEditNews.open();
-    newsStore.fetchDetailNews(id);
-};
+  refEditNews.value.$refs.refEditNews.open()
+  newsStore.fetchDetailNews(id)
+}
 
 const handleShowNews = (id) => {
-    newsStore.hideNews(id);
-    console.log("berhasil");
-    newsStore.fetchNews('')
-};
+  newsStore.hideNews(id)
+  console.log('berhasil')
+  newsStore.fetchNews('')
+}
 
 const handleHideNews = (id) => {
-    newsStore.showNews(id);
-    console.log("berhasil");
-    newsStore.fetchNews('')
-};
+  newsStore.showNews(id)
+  console.log('berhasil')
+  newsStore.fetchNews('')
+}
 
-
-
-
-const router = useRouter();
+const router = useRouter()
 
 const handlePreview = async (id) => {
-
-  router.push(`/admin/news/preview/${id}`);
-};
-
+  router.push(`/admin/news/preview/${id}`)
+}
 </script>
 
-<style>
-.text-button {
-    margin-top:10px;
-    margin-left:15px;
-    height: 36px;
-    min-width: 64px;
-    padding: 0 16px;
-    background-color: #002469 !important;
-    border-color: #002469 !important;
-    color: #fff;
+<style scoped>
+.custom-button {
+  background-color: #1ee54c; /* Dark blue background */
+  color: #ffffff; /* White text */
+}
+.card-news {
+  display: block;
+  max-width: 100%;
+  outline: none;
+  text-decoration: none;
+  transition-property: box-shadow, opacity;
+  overflow-wrap: break-word;
+  position: relative;
+  white-space: normal;
+  transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: box-shadow;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
-.card-news{
-    display: block;
-    max-width: 100%;
-    outline: none;
-    text-decoration: none;
-    transition-property: box-shadow,opacity;
-    overflow-wrap: break-word;
-    position: relative;
-    white-space: normal;
-    transition: box-shadow .28s cubic-bezier(.4,0,.2,1);
-    will-change: box-shadow;
-    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+.text-right {
+  padding-right: 16px; /* Adjust the padding value as needed */
 }
 
-.news-title{
-    align-items: center;
-    display: flex;
-    flex-wrap: wrap;
-    font-size: 1.25rem;
-    font-weight: 500;
-    letter-spacing: .0125em;
-    line-height: 2rem;
-    word-break: break-all;
+.my-2 {
+  margin-top: 8px; /* Adjust the margin values as needed */
+  margin-bottom: 8px;
+}
+.news-title {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: 0.0125em;
+  line-height: 2rem;
+  word-break: break-all;
 }
 
-.news-subtitle{
-    font-size: .875rem;
-    font-weight: 400;
-    line-height: 1.375rem;
-    letter-spacing: .0071428571em;
-}
-
-.button-news{
-    align-items: center;
-    color: inherit;
-    display: flex;
-    flex: 1 0 auto;
-    justify-content: inherit;
-    line-height: normal;
-    position: relative;
+.news-subtitle {
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.375rem;
+  letter-spacing: 0.0071428571em;
 }
 </style>

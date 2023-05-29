@@ -10,25 +10,22 @@ class QuizServices {
     async createQuiz({
         payload
     }) {
-        const formData = new FormData()
-        formData.append('module_name', payload.module_name)
-        formData.append('start_date', payload.start_date)
-        formData.append('end_date', payload.end_date)
-        formData.append('per_page', payload.per_page)
-        formData.append('published_at', payload.published_at)
-        const arr = [
-            payload.questions.forEach((question) => {
-                formData.append('question.title', payload.question.title);
-
-                question.choices.forEach((choice) => {
-                    formData.append(`choice.text`, payload.choice.text);
-                    formData.append(`choice.is_correct`, payload.is_correct);
-                });
-            })
-        ];
-        formData.append('question', arr)
-        console.log(formData, "ini form data")
-        const res = await Api.doPost(`quiz/create`, formData)
+        const convertedPayload = {
+            module_name: payload.moduleName,
+            per_page: payload.per_page,
+            start_date: payload.start_date,
+            end_date: payload.end_date,
+            published_at: payload.published_at,
+            questions: payload.questions.map((question) => ({
+                title: question.title,
+                choices: question.choices.map((choice) => ({
+                    text: choice.text,
+                    value: choice.value,
+                    isCorrect: choice.is_correct
+                }))
+            }))
+        };
+        const res = await Api.doPost(`quiz/create`, convertedPayload)
         return res
     }
 

@@ -10,6 +10,7 @@ import Swal from 'sweetalert2'
 
 export const useDashboardStore = defineStore('dashboard', () => {
     const dashboardnews = ref([]);
+    const dashboardquiz = ref([]);
 
     const getDashboardNews = () => {
         return dashboardnews.value;
@@ -17,6 +18,14 @@ export const useDashboardStore = defineStore('dashboard', () => {
 
     const setDashboardNews = (value) => {
         dashboardnews.value = value
+    }
+
+    const getDashboardQuiz = () => {
+        return dashboardquiz.value;
+    };
+
+    const setDashboardQuiz = (value) => {
+        dashboardquiz.value = value
     }
 
     const fetchDashboardNews = async () => {
@@ -31,9 +40,23 @@ export const useDashboardStore = defineStore('dashboard', () => {
         }
     };
 
+    const fetchDashboardQuiz = async () => {
+        try {
+            const res = await SERVICE.getQuizDashboard();
+
+            setDashboardQuiz(res.data)
+
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     return {
         dashboardnews,
         getDashboardNews,
-        fetchDashboardNews
+        fetchDashboardNews,
+        dashboardquiz,
+        getDashboardQuiz,
+        fetchDashboardQuiz
     }
 })

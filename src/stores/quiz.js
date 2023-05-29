@@ -58,7 +58,7 @@ export const useQuizStore = defineStore('quiz', () => {
             })
             Swal.fire({
                 icon: "success",
-                title: "Berhasil Membuat News",
+                title: "Berhasil Membuat Quiz",
                 text: "^_^",
             });
             return res
