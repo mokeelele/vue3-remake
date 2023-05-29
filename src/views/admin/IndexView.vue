@@ -28,7 +28,7 @@
           <v-card-subtitle> {{ news?.slug }} </v-card-subtitle>
 
           <v-card-actions>
-            <v-btn color="orange-lighten-2" variant="text"> Detail </v-btn>
+            <v-btn color="primary" text-color="black" variant="tonal">Detail</v-btn>
 
             <v-spacer></v-spacer>
 
