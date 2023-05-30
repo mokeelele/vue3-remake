@@ -41,12 +41,11 @@ class QuizServices {
         payload
     }) {
         const convertedPayload = {
-            answer: payload.questions.map((answer) => ({
+            answer: payload.answer.map((answer) => ({
                 title: answer.title,
                 answer_choices: question.choices.map((answer_choice) => ({
                     text: answer_choice.text,
                     isSelected: answer_choice.is_selected,
-                    isCorrect: choice.is_correct
                 }))
             }))
         };

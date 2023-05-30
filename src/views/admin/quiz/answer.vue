@@ -9,26 +9,20 @@
   <v-row>
     <v-col md="2"></v-col>
     <v-col md="8">
+      <v-form v-model="valid" @submit.prevent="handleSubmit">
       <v-card class="mt-5" v-for="question in getDetailQuiz.question" :key="question.id">
         <v-card-item>
           <v-card-title>{{ question.title }}</v-card-title>
-          <template v-for="choice in question.choice">
-            <template v-if="choice.is_selected === '1'">
+          <template v-for="choice in question.choice" :key="choice.id">
               <v-checkbox
-                :key="choice.id"
                 :label="choice.choice_text"
-                v-model="isChecked"
+                v-model="choice.is_selected"
               ></v-checkbox>
-            </template>
-            <template v-else>
-              <v-checkbox
-                :key="choice.id"
-                :label="choice.choice_text"
-              ></v-checkbox>
-            </template>
           </template>
         </v-card-item>
       </v-card>
+      <v-btn class="mt-5" type="submit">Submit</v-btn>
+    </v-form>
     </v-col>
   </v-row>
 </template>
@@ -50,7 +44,7 @@ const getAnswerQuiz = computed(() => quizStore.getAnswerQuiz)
 
 
 const router = useRouter()
-const isChecked = ref(true) // Set it to `true` for checked, or `false` for unchecked
+const is_selected = ref(false) // Set it to `true` for checked, or `false` for unchecked
 
 // Initialize selectedChoices for each question
 
@@ -59,6 +53,13 @@ const handleBack = () => {
 
   // redirect to login page
   router.push('/admin/quiz/manage')
+}
+
+const handleSubmit = () => {
+  console.log(is_selected)
+  quizStore.fetchAnswerQuiz().then(() => {
+    quizStore.fetchQuiz()
+  })
 }
 </script>
 
