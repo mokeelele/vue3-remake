@@ -56,14 +56,21 @@ export const useQuizStore = defineStore('quiz', () => {
         }
     }
 
-    async function fetchAnswerQuiz(id, payload) {
+    async function createAnswerQuiz(id, payload) {
         try {
-
+            
             const res = await SERVICE.answerQuiz({
                 id,
                 payload
+            })
+            Swal.fire({
+                icon: "success",
+                title: "Berhasil Submit Jawaban Quiz",
+                text: "Silahkan cek berkala untuk mengetahui hasilnya",
             });
-            setAnswerQuiz(res.data);
+            console.log(res, "sotre")
+            console.log(payload,"masuk store")
+            return res
         } catch (error) {
             console.error(error);
         }
@@ -94,7 +101,7 @@ export const useQuizStore = defineStore('quiz', () => {
         getDetailQuiz,
         fetchDetailQuiz,
         fetchQuiz,
-        fetchAnswerQuiz,
+        createAnswerQuiz,
         createQuiz
     }
 })

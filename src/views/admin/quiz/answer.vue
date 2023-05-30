@@ -13,12 +13,16 @@
       <v-card class="mt-5" v-for="question in getDetailQuiz.question" :key="question.id">
         <v-card-item>
           <v-card-title>{{ question.title }}</v-card-title>
-          <template v-for="choice in question.choice" :key="choice.id">
-              <v-checkbox
-                :label="choice.choice_text"
-                v-model="choice.is_selected"
-              ></v-checkbox>
-          </template>
+          <template v-for="choice,key in question.choice" :key="choice.id">
+            <v-radio-group v-model="choice.is_selected">
+               <v-radio
+                  :id="choice.id"
+                  :label="choice.choice_text"
+                  value="1"
+                ></v-radio>
+              </v-radio-group>
+            </template>
+        <!-- {{ getDetailQuiz.question }} -->
         </v-card-item>
       </v-card>
       <v-btn class="mt-5" type="submit">Submit</v-btn>
@@ -56,9 +60,9 @@ const handleBack = () => {
 }
 
 const handleSubmit = () => {
-  console.log(is_selected)
-  quizStore.fetchAnswerQuiz().then(() => {
-    quizStore.fetchQuiz()
+  console.log(getDetailQuiz.value )
+  quizStore.createAnswerQuiz(route.params.id, getDetailQuiz.value).then(() => {
+    router.push('/admin')
   })
 }
 </script>

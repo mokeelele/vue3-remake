@@ -2,16 +2,6 @@
   <div>
     <h1 class="separator">
       <span class="separator-line"></span>
-      <span class="separator-text">Testimonial</span>
-      <span class="separator-line"></span>
-    </h1>
-  </div>
-  <v-row>
-    <v-col><h1>No Testimonial yet</h1></v-col>
-  </v-row>
-  <div>
-    <h1 class="separator">
-      <span class="separator-line"></span>
       <span class="separator-text">News</span>
       <span class="separator-line"></span>
     </h1>
@@ -110,6 +100,7 @@ const handleAnswer = async (id) => {
 }
 
 const show = ref(false)
+
 </script>
 
 <style>

@@ -65,7 +65,7 @@
   
   const handlePreview = async (id) => {
   
-    router.push(`/admin/quiz/answer/${id}`);
+    router.push(`/admin/quiz/preview/${id}`);
   };
   
   </script>

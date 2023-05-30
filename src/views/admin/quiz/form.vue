@@ -183,6 +183,14 @@ const getUsers = computed(() => authStore.getUsers)
 onMounted(() => {
   authStore.fetchUsers()
 })
+
+const handleBack = () => {
+  // perform logout logic
+
+  // redirect to login page
+  router.push('/admin/quiz/list')
+}
+
 </script>
 
 <style>

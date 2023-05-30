@@ -40,15 +40,19 @@ class QuizServices {
         id,
         payload
     }) {
+
+        console.log(payload)
         const convertedPayload = {
-            answer: payload.answer.map((answer) => ({
+            answer: payload.question.map((answer) => ({
                 title: answer.title,
-                answer_choices: question.choices.map((answer_choice) => ({
-                    text: answer_choice.text,
-                    isSelected: answer_choice.is_selected,
+                answer_choice: answer.choice.map((answer_choice) => ({
+                    choice_text: answer_choice.choice_text,
+                    is_selected: answer_choice.is_selected,
+                    is_correct: answer_choice.is_correct
                 }))
             }))
         };
+        console.log(convertedPayload, "masuk")
         const res = await Api.doPost(`quiz/answer/${id}`, convertedPayload)
         return res
     }

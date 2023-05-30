@@ -17,19 +17,21 @@
           required
           variant="outlined"
         ></v-text-field>
-        <v-textarea
+        <QuillEditor theme="snow" 
+        @update:content = "handleContent($event)"
           v-model="formValues.content"
-          label="Content"
+          placeholder="Content"
           required
           variant="outlined"
-        ></v-textarea>
-        <v-textarea
+          />
+          <br>
+          <v-textarea
           v-model="formValues.short_content"
-          label="Short Content"
+          placeholder="Short Content"
           required
-          variant="outlined"
-        ></v-textarea>
-        <v-file-input
+          variant="outlined"> 
+        </v-textarea>
+        <v-file-input class="mt-5"
           v-model="formValues.image"
           @change="handleChangePhoto($event)"
           label="Foto"
@@ -62,6 +64,8 @@
 import BaseDialog from '@/components/Base/Dialog.vue'
 import { reactive, ref } from '@vue/reactivity'
 import { useNewsStore } from '@/stores/news'
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 const newsStore = useNewsStore()
 
@@ -81,5 +85,9 @@ const handleSubmit = () => {
     newsStore.fetchNews()
     refCreateNews.value.close()
   })
+}
+
+const handleContent = (val) => {
+  formValues.content = val.ops[0].insert;
 }
 </script>
