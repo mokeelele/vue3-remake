@@ -11,12 +11,14 @@ import Swal from 'sweetalert2'
 export const useQuizStore = defineStore('quiz', () => {
     const quiz = ref([]);
     const detailQuiz = ref({});
+    const answerQuiz = ref({});
 
     const getQuiz = () => {
         return quiz.value;
     };
 
     const getDetailQuiz = computed(() => detailQuiz.value)
+    const getAnswerQuiz = computed(() => answerQuiz.value)
 
     const setQuiz = (value) => {
         quiz.value = value
@@ -24,6 +26,10 @@ export const useQuizStore = defineStore('quiz', () => {
 
     const setDetailQuiz = (data) => {
         detailQuiz.value = data
+    }
+
+    const setAnswerQuiz = (data) => {
+        answerQuiz.value = data
     }
 
     const fetchQuiz = async () => {
@@ -50,6 +56,19 @@ export const useQuizStore = defineStore('quiz', () => {
         }
     }
 
+    async function fetchAnswerQuiz(id, payload) {
+        try {
+
+            const res = await SERVICE.answerQuiz({
+                id,
+                payload
+            });
+            setAnswerQuiz(res.data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     async function createQuiz(payload) {
         try {
 
@@ -71,9 +90,11 @@ export const useQuizStore = defineStore('quiz', () => {
     return {
         quiz,
         getQuiz,
+        getAnswerQuiz,
         getDetailQuiz,
         fetchDetailQuiz,
         fetchQuiz,
+        fetchAnswerQuiz,
         createQuiz
     }
 })

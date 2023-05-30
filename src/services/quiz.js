@@ -35,6 +35,24 @@ class QuizServices {
         const res = await Api.doGet(`quiz/detail/${id}`)
         return res
     }
+
+    async answerQuiz({
+        id,
+        payload
+    }) {
+        const convertedPayload = {
+            answer: payload.questions.map((answer) => ({
+                title: answer.title,
+                answer_choices: question.choices.map((answer_choice) => ({
+                    text: answer_choice.text,
+                    isSelected: answer_choice.is_selected,
+                    isCorrect: choice.is_correct
+                }))
+            }))
+        };
+        const res = await Api.doPost(`quiz/answer/${id}`, convertedPayload)
+        return res
+    }
 }
 
 export default new QuizServices()
