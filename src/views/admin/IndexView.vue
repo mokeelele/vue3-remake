@@ -9,7 +9,7 @@
 
   <div>
     <v-row>
-      <v-col cols="12" sm="6" md="4" v-for="news in getDashboardNews" :key="news.id">
+      <v-col cols="12" sm="6" md="4" v-for="news in getDashboardNews?.data" :key="news.id">
         <v-card class="mx-auto" max-width="344">
           <v-img :src="news?.image" height="200px" cover></v-img>
 

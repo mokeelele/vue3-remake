@@ -32,17 +32,20 @@ const getIsUser = computed(() => {
 });
 
 const form = reactive({
-  email: 'admin@gmail.com',
-  password: 'Admin_1234'
+  email: '',
+  password: ''
 })
 
 const handleLogin = async () => {
+  console.log(form);
   auth.login(form).then(async () => {
-    if (auth.getIsRole === '1') {
-    router.push('/admin')
-  } else {
-    router.push('/user')
-  }
+    const role = await auth.fetchUsers();
+    console.log(role);
+    if (role === '1') {
+      router.push('/admin');
+    } else {
+      router.push('/user');
+    }
   });
 };
 

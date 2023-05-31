@@ -13,7 +13,7 @@
       <v-card class="mt-5" v-for="question in getDetailQuiz.question" :key="question.id">
         <v-card-item>
           <v-card-title>{{ question.title }}</v-card-title>
-          <template v-for="choice,key in question.choice" :key="choice.id">
+          <template v-for="choice in question.choice" :key="choice.id">
             <v-radio-group v-model="choice.is_selected">
                <v-radio
                   :id="choice.id"

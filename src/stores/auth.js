@@ -39,9 +39,10 @@ export const useAuthStore = defineStore('auth', () => {
         try {
 
             const res = await SERVICE.getUsers()
+            const role = res.data.role_id;
 
             setUsers(res.data)
-
+            return role;
         } catch (error) {
             console.error(error)
         }
