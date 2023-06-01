@@ -1,92 +1,60 @@
 <template>
-  <v-app id="inspire">
-    <v-navigation-drawer v-model="state.drawer">
-      <v-list>
-        <a href="/admin" class="v-list-item">
-          <div class="v-list-item-icon" style="margin-right: 32px">
-            <v-icon class="icon-home">mdi-home</v-icon>
-          </div>
+  <v-layout>
+    <v-navigation-drawer color="#002469" v-model="drawer" location="left"
+        temporary>
+        <v-list nav v-model:opened="open">
+          <v-list-item prepend-icon="mdi-home" style="cursor: pointer;" @click="goToHome()"><span class="text-item">Home</span></v-list-item>
+          <v-list-group prepend-icon="mdi-newspaper" value="News Menu">
+            <template v-slot:activator="{ props }">
+          <v-list-item
+            v-bind="props"
+            prepend-icon="mdi-newspaper"
+            title="News Menu"
+          ></v-list-item>
+        </template>
+        <v-list-item prepend-icon="mdi-newspaper" title="News List" style="cursor: pointer;" @click="goToNewsList"></v-list-item>
+        <v-list-item prepend-icon="mdi-newspaper" title="News Management" style="cursor: pointer;" @click="goToNewsManage"></v-list-item>
+          </v-list-group>
+          <v-list-group prepend-icon="mdi-newspaper" value="Quiz Menu">
+            <template v-slot:activator="{ props }">
+          <v-list-item
+            v-bind="props"
+            prepend-icon="mdi-format-list-checks"
+            title="Quiz Menu"
+          ></v-list-item>
+        </template>
+        <v-list-item prepend-icon="mdi-history" title="Quiz History" style="cursor: pointer;" @click="goToQuizHistory"></v-list-item>
+        <v-list-item prepend-icon="mdi-format-list-checks" title="Quiz Management" style="cursor: pointer;" @click="goToQuizManage"></v-list-item>
+          </v-list-group>
+          
+        </v-list>
+      </v-navigation-drawer>
 
-          <v-list-item-title class="text-home">Home</v-list-item-title>
-        </a>
-      </v-list>
-      <v-list v-model:opened="open">
-        <v-list-group value="News">
-          <template v-slot:activator="{ props }">
-            <v-list-item
-              v-bind="props"
-              prepend-icon="mdi-newspaper"
-              title="News Menu"
-            ></v-list-item>
-          </template>
-          <v-list-item>
-            <a href="/admin/news/list" class="v-list-items">
-              <div>
-                <v-icon class="icon-home">mdi-newspaper</v-icon>
-              </div>
-              <v-list-item-title class="text-home">News List</v-list-item-title>
-            </a>
-          </v-list-item>
 
-          <v-list-item>
-            <a href="/admin/news/manage" class="v-list-items">
-              <div class="v-list-item-icon">
-                <v-icon class="icon-home">mdi-newspaper</v-icon>
-              </div>
-              <v-list-item-title class="text-home">News Manage</v-list-item-title>
-            </a>
-          </v-list-item>
-        </v-list-group>
-      </v-list>
-      <v-list v-model:opened="open">
-        <v-list-group value="Quiz">
-          <template v-slot:activator="{ props }">
-            <v-list-item
-              v-bind="props"
-              prepend-icon="mdi-format-list-checks"
-              title="Quiz Menu"
-            ></v-list-item>
-          </template>
-          <v-list-item>
-            <a href="/admin/quiz/manage" class="v-list-items">
-              <div class="v-list-item-icon">
-                <v-icon class="icon-home">mdi-format-list-checks</v-icon>
-              </div>
-              <v-list-item-title class="text-home">Quiz Management</v-list-item-title>
-            </a>
-          </v-list-item>
+    <v-app-bar color="#002469" elevation="0" prominent style="z-index: 1;">
+      <template v-slot:prepend>
+          <v-app-bar-nav-icon v-model="state.order" style="color:white" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+        </template>
 
-          <v-list-item>
-            <a href="/admin/quiz/list" class="v-list-items">
-              <div class="v-list-item-icon">
-                <v-icon class="icon-home">mdi-history</v-icon>
-              </div>
-              <v-list-item-title class="text-home">Quiz History</v-list-item-title>
-            </a>
-          </v-list-item>
-        </v-list-group>
-      </v-list>
-    </v-navigation-drawer>
+        <v-app-bar-title style="color:white">
+          <span>Step-Up</span>
+          <h5>Admin</h5>
+        </v-app-bar-title>
 
-    <v-app-bar>
-      <v-app-bar-nav-icon @click="state.drawer = !state.drawer"></v-app-bar-nav-icon>
-
-      <v-toolbar-title style="color: white">Step-Up</v-toolbar-title>
-      <v-spacer></v-spacer>
-
-      <v-btn icon @click="handleLogOut">
-        <v-icon>mdi-power</v-icon>
-      </v-btn>
+        <template v-slot:append>
+          <v-btn style="color:white" icon="mdi-power" @click="handleLogOut"></v-btn>
+        </template>
     </v-app-bar>
 
     <v-main>
       <RouterView />
     </v-main>
-  </v-app>
+  </v-layout>
 </template>
 <script>
 export default {
   data: () => ({
+    drawer: false,
     open: ['News'],
     admins: [
       ['News List', 'mdi-newspaper'],
@@ -99,45 +67,67 @@ export default {
 <script setup>
 import { useRouter } from 'vue-router'
 import { reactive } from 'vue'
+import { useAuthStore } from "@/stores/auth";
 
+const authStore = useAuthStore();
 const router = useRouter()
 const state = reactive({
-  drawer: false
+  order: false
 })
 
-const handleLogOut = () => {
-  // perform logout logic
-  // ...
+const goToHome = () => {
+  console.log("test");
+  router.push('/admin')
+}
 
-  // redirect to login page
+const goToNewsList = () => {
+  console.log("test");
+  router.push('/admin/news/list')
+}
+
+const goToNewsManage = () => {
+  console.log("test");
+  router.push('/admin/news/manage')
+}
+
+const goToQuizHistory = () => {
+  console.log("test");
+  router.push('/admin/quiz/list')
+}
+
+const goToQuizManage = () => {
+  console.log("test");
+  router.push('/admin/quiz/manage')
+}
+const handleLogOut = async () => {
+  await authStore.logout();
   router.push('/login')
 }
 </script>
 
 <style scoped>
 #inspire .v-app-bar {
-  background-color: blue;
+  background-color: #002469;
 }
 
-#inspire .v-app-bar .v-app-bar__content {
-  color: white;
+#inspire .v-app-bar .v-navigation-drawer__content {
+  color: #002469;
+}
+
+.v-navigation-drawer__content{
+  color: #002469;
 }
 
 #inspire .v-btn {
   color: white;
 }
 
-.v-list-item {
-  align-items: center;
-  display: flex;
-  letter-spacing: normal;
-  min-height: 48px;
-  padding: 0px 0;
-  outline: none;
-  position: relative;
-  text-decoration: none;
-  background-color: blue;
-  color: white;
+.sidebar-card{
+  height: 100vh;
+    top: 0px;
+    transform: translateX(0%);
+    width: 256px;
+    box-shadow: 0 8px 10px -5px rgba(0,0,0,.2), 0 16px 24px 2px rgba(0,0,0,.14), 0 6px 30px 5px rgba(0,0,0,.12);
 }
 
 .v-list-items {
@@ -147,13 +137,26 @@ const handleLogOut = () => {
   letter-spacing: normal;
   min-height: 48px;
   outline: none;
-  padding: 0 16px;
+  padding-right: 45px!important;
   position: relative;
   text-decoration: none;
   color: white;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.v-list-item{
+  color:white;
+  align-self: center;
+    font-size: 16px;
+}
+
+.text-item{
+  color:white;
+  align-self: center;
+    font-size: 1rem;
+    white-space: nowrap;
 }
 
 .icon-home {

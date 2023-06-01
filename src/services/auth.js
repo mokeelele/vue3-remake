@@ -5,6 +5,7 @@ class AuthServices {
         payload
     }) {
         const res = await Api.doPost(`login`, payload)
+        console.log(res, "res")
         // console.debug('GET FETCH', res)
         return res
     }
@@ -23,9 +24,9 @@ class AuthServices {
     }
 
     async logout() {
-        const res = await Api.doPost(`v1/logout`)
-
-        return res
+        return await Api.doGet(`logout`)
+            .then((res) => res)
+            .catch((err) => err)
     }
 
     async detailUser({

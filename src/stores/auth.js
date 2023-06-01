@@ -39,6 +39,17 @@ export const useAuthStore = defineStore('auth', () => {
         try {
 
             const res = await SERVICE.getUsers()
+
+            setUsers(res.data)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    async function fetchUsersRole() {
+        try {
+
+            const res = await SERVICE.getUsers()
             const role = res.data.role_id;
 
             setUsers(res.data)
@@ -53,9 +64,6 @@ export const useAuthStore = defineStore('auth', () => {
             const res = await SERVICE.login({
                 payload
             })
-
-            console.log("res", res)
-
             localStorage.setItem('auth_token', res.data.sanctum.accessToken)
             localStorage.setItem('user', JSON.stringify(res.data.user))
 
@@ -75,16 +83,17 @@ export const useAuthStore = defineStore('auth', () => {
 
     async function logout() {
         try {
-            setUser("")
-            setAuth("")
-            localStorage.removeItem('auth_token')
-            localStorage.removeItem('user')
-
-            await SERVICE.logout()
+          const res = await SERVICE.logout();
+            localStorage.removeItem("auth_token");
+            localStorage.removeItem("user");
+          setUser({});
+          setAuth(false);
+          return res;
         } catch (error) {
-            console.error(error)
+
+          console.error(error);
         }
-    }
+      }
 
     async function createUser(payload) {
         try {
@@ -141,6 +150,7 @@ export const useAuthStore = defineStore('auth', () => {
         getProfile,
         fetchUsers,
         fetchProfile,
+        fetchUsersRole,
         updateUser,
         login,
         logout,

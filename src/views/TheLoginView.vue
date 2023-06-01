@@ -39,14 +39,11 @@ const form = reactive({
 const handleLogin = async () => {
   console.log(form);
   auth.login(form).then(async () => {
-    const role = await auth.fetchUsers();
+    const role = await auth.fetchUsersRole();
     console.log(role);
-    if (role === '1') {
-      router.push('/admin');
-    } else {
-      router.push('/user');
-    }
+    router.push({ path: '/redirect', query: { role: role } });
   });
 };
+
 
 </script>
