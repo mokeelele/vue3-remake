@@ -75,7 +75,7 @@
   </v-row>
 </template>
   
-  <script setup>
+<script setup>
 import { useRouter, useRoute } from 'vue-router'
 
 import { ref, computed, onMounted, reactive, watchEffect } from 'vue'
