@@ -19,7 +19,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted } from "vue";
+import { computed, onMounted } from 'vue'
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
@@ -28,8 +28,8 @@ const router = useRouter()
 const auth = useAuthStore()
 
 const getIsUser = computed(() => {
-  return auth.getIsUser;
-});
+  return auth.getIsUser
+})
 
 const form = reactive({
   email: '',
@@ -37,21 +37,26 @@ const form = reactive({
 })
 
 const handleLogin = async () => {
-  console.log(form);
+  console.log(form)
   auth.login(form).then(async () => {
-    const role = await auth.fetchUsersRole();
-    console.log(role);
-  });
-};
+    const role = await auth.fetchUsersRole()
+
+    if (role === '1') {
+      router.push('/admin')
+    } else {
+      router.push('/user')
+    }
+  })
+}
 
 const RedirectPage = {
   beforeRouteEnter(to, from, next) {
-    const role = to.query.role;
+    const role = to.query.role
     if (role === '1') {
-      next('/admin');
+      next('/admin')
     } else {
-      next('/user');
+      next('/user')
     }
-  },
-};
+  }
+}
 </script>

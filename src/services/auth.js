@@ -5,7 +5,7 @@ class AuthServices {
         payload
     }) {
         const res = await Api.doPost(`login`, payload)
-        console.log(res, "res")
+        console.log(res, "consoleLog Service")
         // console.debug('GET FETCH', res)
         return res
     }

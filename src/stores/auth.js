@@ -53,6 +53,7 @@ export const useAuthStore = defineStore('auth', () => {
             const role = res.data.role_id;
 
             setUsers(res.data)
+
             return role;
         } catch (error) {
             console.error(error)
@@ -64,11 +65,13 @@ export const useAuthStore = defineStore('auth', () => {
             const res = await SERVICE.login({
                 payload
             })
-            localStorage.setItem('auth_token', res.data.sanctum.accessToken)
-            localStorage.setItem('user', JSON.stringify(res.data.user))
 
-            setUser(res.data.sanctum.accessToken)
-            setAuth(res.data.user)
+            localStorage.setItem('user', JSON.stringify(res.data.user))
+            localStorage.setItem('auth_token', res.data.sanctum.accessToken)
+
+            setUser(res.data.user)
+            setAuth(res.data.sanctum.accessToken)
+
             Swal.fire({
                 icon: "success",
                 title: "Welcome To The Company",
@@ -83,17 +86,17 @@ export const useAuthStore = defineStore('auth', () => {
 
     async function logout() {
         try {
-          const res = await SERVICE.logout();
+            const res = await SERVICE.logout();
             localStorage.removeItem("auth_token");
             localStorage.removeItem("user");
-          setUser({});
-          setAuth(false);
-          return res;
+            setUser({});
+            setAuth(false);
+            return res;
         } catch (error) {
 
-          console.error(error);
+            console.error(error);
         }
-      }
+    }
 
     async function createUser(payload) {
         try {
