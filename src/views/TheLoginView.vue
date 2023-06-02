@@ -41,9 +41,17 @@ const handleLogin = async () => {
   auth.login(form).then(async () => {
     const role = await auth.fetchUsersRole();
     console.log(role);
-    router.push({ path: '/redirect', query: { role: role } });
   });
 };
 
-
+const RedirectPage = {
+  beforeRouteEnter(to, from, next) {
+    const role = to.query.role;
+    if (role === '1') {
+      next('/admin');
+    } else {
+      next('/user');
+    }
+  },
+};
 </script>

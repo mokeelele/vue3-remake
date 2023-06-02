@@ -2,6 +2,7 @@ import {
   createRouter,
   createWebHistory
 } from "vue-router";
+import { useAuthStore } from '@/stores/auth'
 // import Cookie from "js-cookie";
 // import axios from "axios";
 
@@ -152,7 +153,7 @@ const router = createRouter({
   ],
 });
 
-// router.beforeEach((to, from, next) => {
+
 //   const token = Cookie.get("auth.token");
 
 //   if (to.name === "login" && token) {
@@ -171,6 +172,6 @@ const router = createRouter({
 //   } else {
 //     next();
 //   }
-// });
+
 
 export default router;

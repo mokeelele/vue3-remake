@@ -38,7 +38,15 @@
 
         <v-app-bar-title style="color:white">
           <span>Step-Up</span>
-          <h5>Admin</h5>
+          <h5 v-if="router.currentRoute.value.name == 'admin-home' ">Admin</h5>
+          <h5 v-if="router.currentRoute.value.name == 'news-manage' ">News Management</h5>
+          <h5 v-if="router.currentRoute.value.name == 'news-list' ">News List</h5>
+          <h5 v-if="router.currentRoute.value.name == 'news-preview' ">Preview News</h5>
+          <h5 v-if="router.currentRoute.value.name == 'quiz-list' ">Quiz History</h5>
+          <h5 v-if="router.currentRoute.value.name == 'user-home' ">User</h5>
+          <h5 v-if="router.currentRoute.value.name == 'quiz-manage' ">Quiz Management</h5>
+          <h5 v-if="router.currentRoute.value.name == 'quiz-form' ">Create Quiz</h5>
+          <h5 v-if="router.currentRoute.value.name == 'quiz-preview' ">Preview Quiz</h5>
         </v-app-bar-title>
 
         <template v-slot:append>
