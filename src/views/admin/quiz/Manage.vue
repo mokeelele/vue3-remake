@@ -1,5 +1,5 @@
 <template>
-  <v-row>
+  <v-row >
     <v-col md="12">
       <button @click="handleCreate()" class="text-button">
         <v-icon>mdi-plus</v-icon>Create Quiz
@@ -37,7 +37,7 @@
     </v-col>
   </v-row>
 
-  <v-row>
+  <v-row style="min-height: 100vh;">
     <v-col md="12">
       <v-card class="card-news mt-2 mb-2" v-for="quiz in getQuiz" :key="quiz.id">
         <v-row>

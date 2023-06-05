@@ -7,7 +7,7 @@
     </v-col>
   </v-row>
 
-  <v-row class="ml-5">
+  <v-row class="ml-5" style="min-height: 100vh;">
     <v-col md="12">
       <v-form v-model="valid" @submit.prevent="handleSubmit">
         <v-text-field

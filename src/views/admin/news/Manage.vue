@@ -9,7 +9,7 @@
 
   <v-row>
     <v-col cols="12">
-      <v-btn class="text-button custom-button" @click="handleCreateNews">
+      <v-btn class="text-button custom-button mt-2" @click="handleCreateNews">
         <v-icon>mdi-plus</v-icon>Create News
       </v-btn>
     </v-col>

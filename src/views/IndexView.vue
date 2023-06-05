@@ -1,5 +1,5 @@
-<template>
-  <div v-if="getDashboardNews && getDashboardNews.length > 0">
+<template style="min-height: 100vh">
+  <div v-if="getDashboardNews?.data && getDashboardNews?.data?.length > 0">
     <div>
       <h1 class="separator">
         <span class="separator-line"></span>
@@ -10,41 +10,25 @@
 
     <div>
       <v-row>
-        <v-col cols="12" sm="6" md="4" v-for="news in getDashboardNews" :key="news.id">
-          <v-card class="mx-auto" max-width="344">
-            <v-img :src="news?.image" height="200px" cover></v-img>
-
-            <v-card-title align="center"> {{ news.title }} </v-card-title>
-
-            <v-card-subtitle> {{ news?.slug }} </v-card-subtitle>
-
-            <v-card-actions>
-              <v-btn @click="handlePreview(news?.id)" outlined class="mb-5 mt-5 detail-button"
-                >More Details</v-btn
-              >
-
-              <v-spacer></v-spacer>
-
-              <v-btn
-                :icon="show ? 'mdi-chevron-up' : 'mdi-chevron-down'"
-                @click="show = !show"
-              ></v-btn>
-            </v-card-actions>
-
-            <v-expand-transition>
-              <div v-show="show">
-                <v-divider></v-divider>
-
-                <v-card-text> {{ news?.short_content }} </v-card-text>
-              </div>
-            </v-expand-transition>
-          </v-card>
-        </v-col>
+        <v-col cols="12" sm="6" md="4" align="center" v-for="news in getDashboardNews?.data" :key="news.id">
+      <v-card>
+        <v-card-title class="v-card--title justify-center">
+          {{ news?.title }}
+        </v-card-title>
+        <v-img style="height: 140px" :src="news?.image"></v-img>
+        <v-card-text class="v-card--title justify-center">
+          {{ news?.short_content }}
+        </v-card-text>
+        <v-btn @click="handlePreview(news?.id)" outlined class="mb-5 mt-5 detail-button"
+          >More Details</v-btn
+        >
+      </v-card>
+    </v-col>
       </v-row>
     </div>
   </div>
-  <div>
-    <div v-if="getDashboardQuiz && getDashboardQuiz.length > 0">
+  <div style="min-height: 100vh">
+    <div v-if="getDashboardQuiz && getDashboardQuiz.length > 0" >
       <h1 class="separator">
         <span class="separator-line"></span>
         <span class="separator-text">Quiz</span>

@@ -4,8 +4,8 @@
       <v-icon>mdi-chevron-left</v-icon> News Management
     </button>
   </v-row>
-  <v-row>
-    <v-col cols="12" sm="6" md="4">
+  <v-row >
+    <v-col cols="12" sm="6" md="4" >
       <v-card>
         <v-card-item>
           <v-card-title>
