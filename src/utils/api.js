@@ -20,33 +20,27 @@ import {
 // })
 
 const api = axios.create({
-  baseURL: baseUrl, // Menggunakan environment variable sebagai baseURL
+  baseURL: baseUrl,
 });
 
-// Contoh penggunaan interceptors untuk request
 api.interceptors.request.use(
   (config) => {
     const authStore = useAuthStore()
 
     config.headers.Authorization = `Bearer ${authStore.getIsAuth}`
 
-    // Lakukan sesuatu sebelum request dikirim
     return config;
   },
   (error) => {
-    // Tangani kesalahan yang terkait dengan request
     return Promise.reject(error);
   }
 );
 
-// Contoh penggunaan interceptors untuk response
 api.interceptors.response.use(
   (response) => {
-    // Lakukan sesuatu terhadap response yang diterima
     return response;
   },
   (error) => {
-    // Tangani kesalahan yang terkait dengan response
     return Promise.reject(error);
   }
 );
