@@ -58,16 +58,18 @@
             </v-card-subtitle>
           </v-col>
           <v-col cols="6" class="text-right my-2">
-            <v-btn class="mb-2 mr-2" variant="tonal" @click="handlePreview(news?.id)" color="green"
+            <v-btn class="mb-2 mr-2 primary-button" @click="handlePreview(news?.id)" color="green"
               >Preview</v-btn
             >
-            <v-btn v-if="news?.hidden_flag == 0" class="mb-2 mr-2 text-button" disabled color="grey"
+            <v-btn
+              v-if="news?.hidden_flag == 0"
+              class="mb-2 mr-2 orange-button"
+              disabled
+              color="grey"
               >Send</v-btn
             >
-            <v-btn v-else class="mb-2 mr-2" variant="tonal" color="red">Send</v-btn>
-            <v-btn class="mb-2 mr-2" @click="handleEditNews(news?.id)" variant="tonal" color="blue"
-              >Edit</v-btn
-            >
+            <v-btn v-else class="mb-2 mr-2 orange-button">Send</v-btn>
+            <v-btn class="mb-2 mr-2 warning-button" @click="handleEditNews(news?.id)">Edit</v-btn>
             <v-btn
               v-if="news?.hidden_flag == 0"
               class="mb-2 mr-2"
@@ -76,7 +78,7 @@
               color="green"
               >Show</v-btn
             >
-            <v-btn v-else class="mb-2 mr-2" @click="handleHideNews(news?.id)" color="red"
+            <v-btn v-else class="mb-2 mr-2 primary-button" @click="handleHideNews(news?.id)"
               >Hide</v-btn
             >
           </v-col>
@@ -204,5 +206,50 @@ const handlePreview = async (id) => {
   font-weight: 400;
   line-height: 1.375rem;
   letter-spacing: 0.0071428571em;
+}
+.primary-button {
+  background-color: #002469;
+  color: white;
+}
+
+.primary-button:hover {
+  background-color: #002469;
+}
+
+.save-button {
+  background-color: green;
+  color: white;
+}
+
+.save-button:hover {
+  background-color: darkgreen;
+}
+.warning-button {
+  background-color: yellow;
+  color: black;
+}
+
+.warning-button:hover {
+  background-color: darkkhaki;
+}
+
+/* Red button styles */
+.red-button {
+  background-color: red;
+  color: white;
+}
+
+.red-button:hover {
+  background-color: darkred;
+}
+
+/* Orange button styles */
+.orange-button {
+  background-color: orange;
+  color: white;
+}
+
+.orange-button:hover {
+  background-color: darkorange;
 }
 </style>

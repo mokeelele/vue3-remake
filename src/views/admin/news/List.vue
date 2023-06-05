@@ -27,7 +27,7 @@
         <v-card-text class="v-card--title justify-center">
           {{ news?.short_content }}
         </v-card-text>
-        <v-btn @click="handlePreview(news?.id)" outlined class="mb-5 mt-5 detail-button"
+        <v-btn @click="handlePreview(news?.id)" outlined class="mb-5 mt-5 primary-button"
           >More Details</v-btn
         >
       </v-card>
@@ -62,7 +62,7 @@ const handlePreview = async (id) => {
 }
 </script>
   
-  <style>
+<style scoped>
 .text-button {
   margin-top: 10px;
   margin-left: 15px;
@@ -156,5 +156,22 @@ const handlePreview = async (id) => {
   justify-content: inherit;
   line-height: normal;
   position: relative;
+}
+.primary-button {
+  background-color: #002469;
+  color: white;
+}
+
+.primary-button:hover {
+  background-color: #002469;
+}
+
+.save-button {
+  background-color: green;
+  color: white;
+}
+
+.save-button:hover {
+  background-color: darkgreen;
 }
 </style>

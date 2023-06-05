@@ -10,25 +10,32 @@
 
     <div>
       <v-row>
-        <v-col cols="12" sm="6" md="4" align="center" v-for="news in getDashboardNews?.data" :key="news.id">
-      <v-card>
-        <v-card-title class="v-card--title justify-center">
-          {{ news?.title }}
-        </v-card-title>
-        <v-img style="height: 140px" :src="news?.image"></v-img>
-        <v-card-text class="v-card--title justify-center">
-          {{ news?.short_content }}
-        </v-card-text>
-        <v-btn @click="handlePreview(news?.id)" outlined class="mb-5 mt-5 detail-button"
-          >More Details</v-btn
+        <v-col
+          cols="12"
+          sm="6"
+          md="4"
+          align="center"
+          v-for="news in getDashboardNews?.data"
+          :key="news.id"
         >
-      </v-card>
-    </v-col>
+          <v-card>
+            <v-card-title class="v-card--title justify-center">
+              {{ news?.title }}
+            </v-card-title>
+            <v-img style="height: 140px" :src="news?.image"></v-img>
+            <v-card-text class="v-card--title justify-center">
+              {{ news?.short_content }}
+            </v-card-text>
+            <v-btn @click="handlePreview(news?.id)" outlined class="mb-5 mt-5 detail-button"
+              >More Details</v-btn
+            >
+          </v-card>
+        </v-col>
       </v-row>
     </div>
   </div>
   <div style="min-height: 100vh">
-    <div v-if="getDashboardQuiz && getDashboardQuiz.length > 0" >
+    <div v-if="getDashboardQuiz && getDashboardQuiz.length > 0">
       <h1 class="separator">
         <span class="separator-line"></span>
         <span class="separator-text">Quiz</span>
@@ -91,7 +98,7 @@ const handleAnswer = async (id) => {
 const show = ref(false)
 </script>
 
-<style>
+<style scooped>
 .separator {
   display: flex;
   align-items: center;

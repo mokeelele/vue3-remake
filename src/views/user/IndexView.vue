@@ -100,10 +100,9 @@ const handleAnswer = async (id) => {
 }
 
 const show = ref(false)
-
 </script>
 
-<style>
+<style scooped>
 .separator {
   display: flex;
   align-items: center;

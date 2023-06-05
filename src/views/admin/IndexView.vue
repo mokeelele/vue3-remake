@@ -25,7 +25,7 @@
             <v-card-text class="v-card--title justify-center">
               {{ news?.short_content }}
             </v-card-text>
-            <v-btn @click="handlePreview(news?.id)" outlined class="mb-5 mt-5 detail-button"
+            <v-btn @click="handlePreview(news?.id)" outlined class="mb-5 mt-5 primary-button"
               >More Details</v-btn
             >
           </v-card>
@@ -55,9 +55,7 @@
               </v-card-subtitle>
             </div>
             <v-card-actions class="d-flex justify-center">
-              <v-btn color="primary" variant="tonal" @click="handleAnswer(quiz.id)"
-                >Take Test</v-btn
-              >
+              <v-btn class="primary-button" @click="handleAnswer(quiz.id)">Take Test</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -97,7 +95,7 @@ const handleAnswer = async (id) => {
 const show = ref(false)
 </script>
 
-<style>
+<style scooped>
 .separator {
   display: flex;
   align-items: center;
@@ -113,5 +111,23 @@ const show = ref(false)
 .separator-text {
   margin: 0 10px;
   font-weight: medium;
+}
+
+.primary-button {
+  background-color: #002469;
+  color: white;
+}
+
+.primary-button:hover {
+  background-color: #002469;
+}
+
+.save-button {
+  background-color: green;
+  color: white;
+}
+
+.save-button:hover {
+  background-color: darkgreen;
 }
 </style>

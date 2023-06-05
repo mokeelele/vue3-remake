@@ -7,7 +7,7 @@
     </v-col>
   </v-row>
 
-  <v-row class="ml-5" style="min-height: 100vh;">
+  <v-row class="ml-5" style="min-height: 100vh">
     <v-col md="12">
       <v-form v-model="valid" @submit.prevent="handleSubmit">
         <v-text-field
@@ -50,7 +50,8 @@
         <!-- Form fields -->
         <v-divider></v-divider>
         <!-- Add Question button -->
-        <v-btn class="mt-5 mb-5" @click="addQuestion">Add Question</v-btn>
+        <v-btn class="mt-5 mb-5 primary-button" @click="addQuestion">Add Question</v-btn>
+
         <!-- Questions -->
         <div v-for="(question, questionIndex) in state.questions" :key="questionIndex">
           <v-text-field
@@ -80,11 +81,13 @@
           </v-row>
 
           <!-- Add Choice button -->
-          <v-btn class="mb-4" @click="addChoice(questionIndex)">Add Choice</v-btn>
+          <v-btn class="mt-5 mb-5 primary-button" @click="addQuestion" variant="tonal"
+            >Add Question</v-btn
+          >
         </div>
 
         <!-- Submit button -->
-        <v-btn class="mt-5" type="submit">Save</v-btn>
+        <v-btn class="mt-5 save-button" type="submit">Save</v-btn>
       </v-form>
     </v-col>
   </v-row>
@@ -190,75 +193,24 @@ const handleBack = () => {
   // redirect to login page
   router.push('/admin/quiz/list')
 }
-
 </script>
 
-<style>
-.text-button {
-  margin-top: 10px;
-  margin-left: 15px;
-  height: 36px;
-  min-width: 64px;
-  padding: 0 16px;
-  background-color: #002469 !important;
-  border-color: #002469 !important;
-  color: #fff;
+<style scooped>
+.primary-button {
+  background-color: #002469;
+  color: white;
 }
 
-.card-news {
-  display: block;
-  max-width: 100%;
-  outline: none;
-  text-decoration: none;
-  transition-property: box-shadow, opacity;
-  overflow-wrap: break-word;
-  position: relative;
-  white-space: normal;
-  transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: box-shadow;
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+.primary-button:hover {
+  background-color: #002469;
 }
 
-.news-title {
-  align-items: center;
-  display: flex;
-  flex-wrap: wrap;
-  font-size: 1.25rem;
-  font-weight: 500;
-  letter-spacing: 0.0125em;
-  line-height: 2rem;
-  word-break: break-all;
+.save-button {
+  background-color: green;
+  color: white;
 }
 
-.news-subtitle {
-  font-size: 0.875rem;
-  font-weight: 400;
-  line-height: 1.375rem;
-  letter-spacing: 0.0071428571em;
-}
-
-.button-news {
-  align-items: center;
-  color: inherit;
-  display: flex;
-  flex: 1 0 auto;
-  justify-content: inherit;
-  line-height: normal;
-  position: relative;
-}
-
-.divider-with-text {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-.divider-text {
-  background-color: #fff;
-  padding: 0 10px;
-  position: relative;
-  z-index: 1;
+.save-button:hover {
+  background-color: darkgreen;
 }
 </style>
