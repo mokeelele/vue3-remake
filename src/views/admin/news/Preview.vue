@@ -1,11 +1,11 @@
 <template>
-  <v-row>
-    <button class="text-button" @click="handleBack">
+  <v-row class="ml-3 justify-left">
+    <button class="text-button mt-5" @click="handleBack">
       <v-icon>mdi-chevron-left</v-icon> News Management
     </button>
   </v-row>
-  <v-row>
-    <v-col cols="12" sm="6" md="4">
+  <v-row  class="justify-center mt-3">
+    <v-col cols="12" sm="6" md="5" class="ml-3">
       <v-card>
         <v-card-item>
           <v-card-title>
@@ -18,6 +18,17 @@
           </v-card-text>
         </v-card-item>
       </v-card>
+    </v-col>
+  </v-row>
+  <v-row class="justify-center" style="min-height: 50vh;">
+    <v-col cols="12" sm="6" md="3" class="mt-4" style="text-align: right;">
+      Attachment : 
+    </v-col>
+    <v-col md="3" style="">
+      <v-select :items="['attachment1.pdf','attachment2.pdf']" variant="outlined"></v-select>
+    </v-col>
+    <v-col md="3">
+      <v-btn class="text-button mt-3" outlined>Download</v-btn>
     </v-col>
   </v-row>
 </template>

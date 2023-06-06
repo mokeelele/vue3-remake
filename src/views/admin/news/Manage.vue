@@ -1,4 +1,5 @@
 <template>
+<div style="min-height: 100vh; background-color: whitesmoke;">
   <!-- Modal Create News -->
   <DialogCreateNews ref="refCreateNews"></DialogCreateNews>
   <!-- End Create news -->
@@ -34,14 +35,14 @@
       <v-row align="center">
         <v-col cols="4" align="center"> Page </v-col>
         <v-col cols="4">
-          <v-select :items="['1']" variant="outlined"></v-select>
+          <v-select :items="['1','2']" variant="outlined"></v-select>
         </v-col>
         <v-col cols="4" align="center"> Of 1 </v-col>
       </v-row>
     </v-col>
   </v-row>
 
-  <v-row>
+  <v-row >
     <v-col cols="12" v-for="news in getNews?.data" :key="news.id">
       <v-card class="card-news mt-2 mb-2">
         <v-row>
@@ -86,6 +87,7 @@
       </v-card>
     </v-col>
   </v-row>
+</div>
 </template>
 
 <script setup>

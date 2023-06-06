@@ -1,4 +1,5 @@
 <template>
+  <div style="min-height: 100vh; background-color: whitesmoke;">
   <v-row class="mt-5">
     <v-col md="4" class="ml-5">
       <v-text-field
@@ -33,6 +34,7 @@
       </v-card>
     </v-col>
   </v-row>
+</div>
 </template>
   
   <script setup>
