@@ -6,7 +6,7 @@
       </button>
     </v-col>
   </v-row>
-  <v-row>
+  <v-row style="min-height: 100vh;">
     <v-col md="2"></v-col>
     <v-col md="8">
       <v-card class="mt-5" v-for="question in getDetailQuiz.question" :key="question.id">

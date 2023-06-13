@@ -20,7 +20,7 @@
       </v-card>
     </v-col>
   </v-row>
-  <v-row class="justify-center" style="min-height: 50vh;">
+  <v-row class="justify-center">
     <v-col cols="12" sm="6" md="3" class="mt-4" style="text-align: right;">
       Attachment : 
     </v-col>
@@ -31,6 +31,9 @@
       <v-btn class="text-button mt-3" outlined>Download</v-btn>
     </v-col>
   </v-row>
+  <v-row class="justify-center" style="height: 100vh;" >
+    <iframe :src="pdfUrl" width="800" height="700"></iframe>
+  </v-row>
 </template>
   
   <script setup>
@@ -38,6 +41,9 @@ import { useRouter } from 'vue-router'
 import { useRoute } from 'vue-router'
 import { useNewsStore } from '@/stores/news'
 import { ref, computed, onMounted } from 'vue'
+import examplePdf from '@/assets/ijazah.pdf';
+
+const pdfUrl = examplePdf;
 
 const route = useRoute()
 const newsStore = useNewsStore()

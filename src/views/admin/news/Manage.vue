@@ -58,7 +58,7 @@
               <b>Created Date: {{ news?.created_at }}</b>
             </v-card-subtitle>
           </v-col>
-          <v-col cols="6" class="text-right my-2">
+          <v-col cols="6" class="text-right my-2 square-container">
             <v-btn class="mb-2 mr-2 primary-button" @click="handlePreview(news?.id)" color="green"
               >Preview</v-btn
             >
@@ -253,5 +253,11 @@ const handlePreview = async (id) => {
 
 .orange-button:hover {
   background-color: darkorange;
+}
+
+.square-container {
+  display: flex;
+  justify-content: right;
+  align-items: center;
 }
 </style>
